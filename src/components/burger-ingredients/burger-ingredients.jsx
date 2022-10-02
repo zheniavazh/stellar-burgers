@@ -1,8 +1,9 @@
 import React from "react";
 import styles from "./burger-ingredients.module.css"
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientCard from "../ingredient-card/ingredient-card";
+import { ingredientType } from "../../utils/types";
 
 const BurgerIngredients = ({ data }) => {
     const [current, setCurrent] = React.useState("Булки")
@@ -31,7 +32,7 @@ const BurgerIngredients = ({ data }) => {
                     <p className="text text_type_main-medium mb-6">Булки</p>
                     <div className={`${styles.list} ml-4 mr-1`}>
                         {buns.map(item => (
-                            <IngredientCard key={item._id} image={item.image} price={item.price} name={item.name} count={1} />
+                            <IngredientCard key={item._id} ingredient={item} count={1} />
                         ))}
                     </div>
                 </div>
@@ -39,7 +40,7 @@ const BurgerIngredients = ({ data }) => {
                     <p className="text text_type_main-medium mb-6">Соусы</p>
                     <div className={`${styles.list} ml-4 mr-1`}>
                         {sauces.map(item => (
-                            <IngredientCard key={item._id} image={item.image} price={item.price} name={item.name} count={1} />
+                            <IngredientCard key={item._id} ingredient={item} count={1} />
                         ))}
                     </div>
                 </div>
@@ -47,7 +48,7 @@ const BurgerIngredients = ({ data }) => {
                     <p className="text text_type_main-medium mb-6">Начинки</p>
                     <div className={`${styles.list} ml-4 mr-1`}>
                         {mains.map(item => (
-                            <IngredientCard key={item._id} image={item.image} price={item.price} name={item.name} count={1} />
+                            <IngredientCard key={item._id} ingredient={item} count={1} />
                         ))}
                     </div>
                 </div>
@@ -57,7 +58,7 @@ const BurgerIngredients = ({ data }) => {
 }
 
 BurgerIngredients.propTypes = {
-    data: PropTypes.array
+    data: PropTypes.arrayOf(ingredientType)
 }
 
 export default BurgerIngredients;
