@@ -1,0 +1,30 @@
+.header {
+    background-color: #1C1C21;
+}
+
+.wrap {
+    width: 1280px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navWrap {
+    width: 30%;
+    display: flex;
+}
+
+.link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.align {
+    margin-left: auto;
+}
