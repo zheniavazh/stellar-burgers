@@ -1,18 +1,18 @@
 .section {
-    width: 600px;
+  width: 600px;
 }
 
 .tabWrap {
-    display: flex;
+  display: flex;
 }
 
 .container {
-    height: 716px;
-    overflow-x: hidden;
+  height: 716px;
+  overflow-x: hidden;
 }
 
 .list {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }

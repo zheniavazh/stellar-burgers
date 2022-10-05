@@ -1,0 +1,29 @@
+.details {
+  display: flex;
+  justify-items: flex-start;
+  align-items: center;
+  flex-direction: column;
+}
+
+.details img {
+  width: 484px;
+}
+
+.detailsWrap {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.detailsItem {
+  width: 112px;
+  display: flex;
+  justify-items: flex-start;
+  align-items: center;
+  flex-direction: column;
+}
+
+.detailsItem:first-child {
+  width: 120px;
+}

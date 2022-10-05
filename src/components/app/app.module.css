@@ -1,10 +1,10 @@
 .app {
-    height: 100vh;
-    color: #fff;
-    background-color: #131316;
+  height: 100vh;
+  color: #fff;
+  background-color: #131316;
 }
 
 .main {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
