@@ -7,26 +7,30 @@ import ModalOverlay from '../modal-overlay/modal-overlay';
 
 const modal = document.getElementById('modal');
 
-const Modal = ({ isModal, setIsModal, modalTitle, children }) => {
+const Modal = ({ isModalOpen, setIsModalOpen, modalTitle, children }) => {
   const handlerCloseModal = useCallback(() => {
-    setIsModal(false);
-  }, [setIsModal]);
+    setIsModalOpen(false);
+  }, [setIsModalOpen]);
 
   useEffect(() => {
     const handlerKeyDown = (e) => {
       if (e.key === 'Escape') {
         handlerCloseModal();
+        console.log('!');
       }
     };
 
-    window.addEventListener('keydown', handlerKeyDown);
+    if (isModalOpen) {
+      window.addEventListener('keydown', handlerKeyDown);
+    }
+
     return () => {
       window.removeEventListener('keydown', handlerKeyDown);
     };
-  }, [handlerCloseModal]);
+  }, [isModalOpen, handlerCloseModal]);
 
   return createPortal(
-    isModal && (
+    isModalOpen && (
       <>
         <div className={`${styles.modal} pt-10 pb-15 pl-10 pr-10`}>
           <div className={styles.header}>
@@ -43,8 +47,8 @@ const Modal = ({ isModal, setIsModal, modalTitle, children }) => {
 };
 
 Modal.propTypes = {
-  isModal: PropTypes.bool.isRequired,
-  setIsModal: PropTypes.func.isRequired,
+  isModalOpen: PropTypes.bool.isRequired,
+  setIsModalOpen: PropTypes.func.isRequired,
   modalTitle: PropTypes.string,
   children: PropTypes.node.isRequired,
 };

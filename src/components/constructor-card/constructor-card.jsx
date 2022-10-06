@@ -35,7 +35,7 @@ const ConstructorCard = ({ type, isLocked, ingredient }) => {
 ConstructorCard.propTypes = {
   type: PropTypes.string,
   isLocked: PropTypes.bool,
-  ingredient: ingredientType,
+  ingredient: ingredientType.isRequired,
 };
 
 export default ConstructorCard;

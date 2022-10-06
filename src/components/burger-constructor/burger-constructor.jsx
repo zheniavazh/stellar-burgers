@@ -13,10 +13,10 @@ import OrderDetails from '../order-details/order-details';
 const orderNumber = '034536';
 
 const BurgerConstructor = ({ data }) => {
-  const [isModal, setIsModal] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handlerOpenModal = () => {
-    setIsModal(true);
+    setIsModalOpen(true);
   };
 
   return (
@@ -65,7 +65,7 @@ const BurgerConstructor = ({ data }) => {
           </Button>
         </div>
       </section>
-      <Modal isModal={isModal} setIsModal={setIsModal}>
+      <Modal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}>
         <OrderDetails orderNumber={orderNumber} />
       </Modal>
     </>
@@ -73,7 +73,7 @@ const BurgerConstructor = ({ data }) => {
 };
 
 BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(ingredientType),
+  data: PropTypes.arrayOf(ingredientType).isRequired,
 };
 
 export default BurgerConstructor;

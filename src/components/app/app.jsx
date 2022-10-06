@@ -13,7 +13,10 @@ const App = () => {
   useEffect(() => {
     fetch(API)
       .then((response) => {
-        return response.json();
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error(`Ошибка ${response.status}`);
       })
       .then((result) => {
         const { data } = result;
