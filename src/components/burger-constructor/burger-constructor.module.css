@@ -1,35 +1,35 @@
 .section {
-    width: 600px;
+  width: 600px;
 }
 
 .constructor {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    gap: 16px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .constructorWrap {
-    height: 464px;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    gap: 16px;
-    overflow-x: hidden;
+  height: 464px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 16px;
+  overflow-x: hidden;
 }
 
 .total {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 .price {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .price svg {
-    width: 36px;
-    height: 36px;
+  width: 36px;
+  height: 36px;
 }

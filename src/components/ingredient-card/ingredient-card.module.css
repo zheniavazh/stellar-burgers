@@ -1,18 +1,19 @@
 .card {
-    width: 272px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
+  width: 272px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
 }
 
 .cardPrice {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .name {
-    min-height: 48px;
-    text-align: center;
+  min-height: 48px;
+  text-align: center;
 }
