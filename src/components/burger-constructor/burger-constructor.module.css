@@ -1,7 +1,3 @@
-.section {
-  width: 600px;
-}
-
 .constructor {
   display: flex;
   align-items: center;
@@ -10,7 +6,7 @@
 }
 
 .constructorWrap {
-  height: 464px;
+  max-height: 464px;
   display: flex;
   align-items: center;
   flex-direction: column;

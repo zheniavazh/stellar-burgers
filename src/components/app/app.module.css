@@ -8,3 +8,11 @@
   display: flex;
   justify-content: center;
 }
+
+.section {
+  width: 600px;
+}
+
+.text {
+  text-align: center;
+}

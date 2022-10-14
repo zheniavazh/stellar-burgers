@@ -16,7 +16,6 @@ const Modal = ({ isModalOpen, setIsModalOpen, modalTitle, children }) => {
     const handlerKeyDown = (e) => {
       if (e.key === 'Escape') {
         handlerCloseModal();
-        console.log('!');
       }
     };
 
