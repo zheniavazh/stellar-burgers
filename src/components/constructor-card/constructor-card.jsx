@@ -8,7 +8,8 @@ import {
 import { ingredientType } from '../../utils/types';
 import { useDispatch } from 'react-redux';
 import { useDrag, useDrop } from 'react-dnd';
-import { DECREASE_COUNT, DELETE_INGREDIENT } from '../../services/actions';
+import { DELETE_INGREDIENT } from '../../services/actions/constructorIngredients';
+import { DECREASE_COUNT } from '../../services/actions/ingredients';
 
 const ConstructorCard = ({ type, isLocked, ingredient, index, moveCard }) => {
   const dispatch = useDispatch();
@@ -75,7 +76,7 @@ const ConstructorCard = ({ type, isLocked, ingredient, index, moveCard }) => {
         type === undefined ? 'mr-2' : 'mr-8'
       }`}
       style={{ opacity }}
-      ref={ref}
+      ref={type === undefined ? ref : null}
       onDrop={(e) => e.preventDefault()}
       data-handler-id={handlerId}
     >

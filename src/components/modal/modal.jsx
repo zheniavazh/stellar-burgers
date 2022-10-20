@@ -5,10 +5,8 @@ import PropTypes from 'prop-types';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  DELETE_CURRENT_INGREDIENT,
-  DELETE_CURRENT_ORDER,
-} from '../../services/actions';
+import { DELETE_CURRENT_INGREDIENT } from '../../services/actions/ingredients';
+import { DELETE_CURRENT_ORDER } from '../../services/actions/orders';
 
 const modal = document.getElementById('modal');
 

@@ -7,7 +7,7 @@ import { composeWithDevTools } from '@redux-devtools/extension';
 import { applyMiddleware, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
-import { rootReducer } from './services/reducers';
+import { rootReducer } from './services/reducers/index';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

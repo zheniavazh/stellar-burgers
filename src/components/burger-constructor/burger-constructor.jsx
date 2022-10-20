@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import styles from './burger-constructor.module.css';
 import {
   CurrencyIcon,
@@ -13,34 +13,39 @@ import { useDrop } from 'react-dnd';
 import {
   ADD_BUN,
   ADD_INGREDIENT,
+  UPDATE_CONSTRUCTOR,
+} from '../../services/actions/constructorIngredients';
+import {
   INCREASE_BUN_COUNT,
   INCREASE_COUNT,
-  UPDATE_CONSTRUCTOR,
-  getOrder,
-} from '../../services/actions';
+} from '../../services/actions/ingredients';
+import { getOrder } from '../../services/actions/orders';
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
 
-  const { isConstructor, ingredients, bun, rest } = useSelector(
+  const { isConstructor, ingredients } = useSelector(
     (state) => state.constructorIngredients
   );
-  const { currentOrder } = useSelector((state) => state.orders);
+  const bun = ingredients.find((el) => el.type === 'bun');
+  const rest = ingredients.filter((el) => el.type !== 'bun');
 
-  const [totalPrice, setTotalPrice] = useState(0);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const getTotalPrice = useCallback(() => {
-    let result = ingredients
+  const totalPrice = useMemo(() => {
+    return ingredients
       .map((el) => (el.type === 'bun' ? el.price * 2 : el.price))
       .reduce((acc, price) => acc + price, 0);
-    setTotalPrice(result);
-  }, [ingredients, setTotalPrice]);
+  }, [ingredients]);
+
+  const { currentOrder } = useSelector((state) => state.orders);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handlerOrder = () => {
-    const ingredientsIds = ingredients.map((el) => el._id);
-    dispatch(getOrder(ingredientsIds));
-    setIsModalOpen(true);
+    if (bun) {
+      const ingredientsIds = ingredients.map((el) => el._id);
+      dispatch(getOrder(ingredientsIds));
+      setIsModalOpen(true);
+    }
   };
 
   const [{ isHover }, dropTargetRef] = useDrop({
@@ -81,10 +86,6 @@ const BurgerConstructor = () => {
     [rest, dispatch]
   );
 
-  useEffect(() => {
-    getTotalPrice();
-  }, [ingredients, getTotalPrice]);
-
   return (
     <>
       <section
@@ -123,6 +124,13 @@ const BurgerConstructor = () => {
                 />
               )}
             </div>
+            {!bun && (
+              <p
+                className={`${styles.text} text text_type_main-default text_color_inactive mt-10 mr-4`}
+              >
+                Не забудьте добавить булку!
+              </p>
+            )}
             <div className={`${styles.total} mt-10 mr-4`}>
               <div className={`${styles.price} mr-10`}>
                 <span className="text text_type_digits-medium mr-2">

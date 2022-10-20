@@ -5,7 +5,7 @@ import IngredientCard from '../ingredient-card/ingredient-card';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import { useDispatch, useSelector } from 'react-redux';
-import { ADD_CURRENT_INGREDIENT } from '../../services/actions';
+import { ADD_CURRENT_INGREDIENT } from '../../services/actions/ingredients';
 
 const modalTitle = 'Детали ингредиента';
 
@@ -24,8 +24,12 @@ const BurgerIngredients = () => {
   const mains = ingredients.filter((el) => el.type === 'main');
 
   useEffect(() => {
+    const container = document.querySelector('.container');
     const element = document.getElementById(currentTab);
-    element.scrollIntoView({ behavior: 'smooth' });
+    container.scrollTo({
+      top: element.offsetTop - container.offsetTop,
+      behavior: 'smooth',
+    });
   }, [currentTab]);
 
   const handlerOpenModal = (payload) => {
@@ -35,7 +39,7 @@ const BurgerIngredients = () => {
 
   return (
     <>
-      <section className={`${styles.section} tab-container ml-5 mr-5`}>
+      <section className={`${styles.section}  ml-5 mr-5`}>
         <p className="text text_type_main-large mt-10 mb-5">Соберите бургер</p>
         <div className={styles.tabWrap}>
           <Tab
@@ -61,9 +65,9 @@ const BurgerIngredients = () => {
           </Tab>
         </div>
         <div
-          className={`tab-container ${styles.container} mt-10 mb-10 custom-scroll`}
+          className={` ${styles.container} container mt-10 mb-10 custom-scroll`}
         >
-          <div className="tab-section mb-2" id="Булки">
+          <div className="mb-2" id="Булки">
             <p className="text text_type_main-medium mb-6">Булки</p>
             <div className={`${styles.list} ml-4 mr-1`}>
               {buns.map((item) => (
@@ -76,7 +80,7 @@ const BurgerIngredients = () => {
               ))}
             </div>
           </div>
-          <div className="tab-section mb-2" id="Соусы">
+          <div className="mb-2" id="Соусы">
             <p className="text text_type_main-medium mb-6">Соусы</p>
             <div className={`${styles.list} ml-4 mr-1`}>
               {sauces.map((item) => (
@@ -89,7 +93,7 @@ const BurgerIngredients = () => {
               ))}
             </div>
           </div>
-          <div className="tab-section mb-2" id="Начинки">
+          <div className="mb-2" id="Начинки">
             <p className="text text_type_main-medium mb-6">Начинки</p>
             <div className={`${styles.list} ml-4 mr-1`}>
               {mains.map((item) => (
