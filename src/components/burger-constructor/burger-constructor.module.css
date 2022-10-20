@@ -1,3 +1,11 @@
+.section {
+  width: 600px;
+}
+
+.onHover {
+  background-color: #1c1c21;
+}
+
 .constructor {
   display: flex;
   align-items: center;

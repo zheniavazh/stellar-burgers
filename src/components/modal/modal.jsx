@@ -4,13 +4,25 @@ import styles from './modal.module.css';
 import PropTypes from 'prop-types';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ModalOverlay from '../modal-overlay/modal-overlay';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  DELETE_CURRENT_INGREDIENT,
+  DELETE_CURRENT_ORDER,
+} from '../../services/actions';
 
 const modal = document.getElementById('modal');
 
 const Modal = ({ isModalOpen, setIsModalOpen, modalTitle, children }) => {
+  const dispatch = useDispatch();
+
+  const { currentIngredient } = useSelector((state) => state.ingredients);
+  const { currentOrder } = useSelector((state) => state.orders);
+
   const handlerCloseModal = useCallback(() => {
     setIsModalOpen(false);
-  }, [setIsModalOpen]);
+    currentIngredient && dispatch({ type: DELETE_CURRENT_INGREDIENT });
+    currentOrder && dispatch({ type: DELETE_CURRENT_ORDER });
+  }, [setIsModalOpen, currentIngredient, currentOrder, dispatch]);
 
   useEffect(() => {
     const handlerKeyDown = (e) => {

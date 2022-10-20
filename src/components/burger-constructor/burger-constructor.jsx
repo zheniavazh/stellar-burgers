@@ -1,24 +1,33 @@
-import { useState, useEffect, useContext, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import styles from './burger-constructor.module.css';
 import {
   CurrencyIcon,
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { API } from '../../constants';
+import { v4 as uuidv4 } from 'uuid';
 import ConstructorCard from '../constructor-card/constructor-card';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
-import { ConstructorContext } from '../../services/constructorContext';
-import { OrdersContext } from '../../services/ordersContext';
+import { useDispatch, useSelector } from 'react-redux';
+import { useDrop } from 'react-dnd';
+import {
+  ADD_BUN,
+  ADD_INGREDIENT,
+  INCREASE_BUN_COUNT,
+  INCREASE_COUNT,
+  UPDATE_CONSTRUCTOR,
+  getOrder,
+} from '../../services/actions';
 
 const BurgerConstructor = () => {
-  const ingredients = useContext(ConstructorContext);
-  const bun = ingredients.find((el) => el.type === 'bun');
-  const rest = ingredients.filter((el) => el.type !== 'bun');
+  const dispatch = useDispatch();
+
+  const { isConstructor, ingredients, bun, rest } = useSelector(
+    (state) => state.constructorIngredients
+  );
+  const { currentOrder } = useSelector((state) => state.orders);
 
   const [totalPrice, setTotalPrice] = useState(0);
-  const [orders, setOrders] = useContext(OrdersContext);
-
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const getTotalPrice = useCallback(() => {
@@ -28,75 +37,113 @@ const BurgerConstructor = () => {
     setTotalPrice(result);
   }, [ingredients, setTotalPrice]);
 
+  const handlerOrder = () => {
+    const ingredientsIds = ingredients.map((el) => el._id);
+    dispatch(getOrder(ingredientsIds));
+    setIsModalOpen(true);
+  };
+
+  const [{ isHover }, dropTargetRef] = useDrop({
+    accept: 'ingredients',
+    drop(item) {
+      dropHandler(item);
+    },
+    collect: (monitor) => ({
+      isHover: monitor.isOver(),
+    }),
+  });
+
+  const dropHandler = (payload) => {
+    if (payload.type === 'bun') {
+      dispatch({ type: ADD_BUN, payload });
+      dispatch({ type: INCREASE_BUN_COUNT, payload });
+    } else {
+      dispatch({
+        type: ADD_INGREDIENT,
+        payload: { ...payload, dragId: uuidv4() },
+      });
+      dispatch({ type: INCREASE_COUNT, payload });
+    }
+  };
+
+  const moveCard = useCallback(
+    (dragIndex, hoverIndex) => {
+      const dragCard = rest[dragIndex];
+      const newCards = [...rest];
+      newCards.splice(dragIndex, 1);
+      newCards.splice(hoverIndex, 0, dragCard);
+
+      dispatch({
+        type: UPDATE_CONSTRUCTOR,
+        payload: newCards,
+      });
+    },
+    [rest, dispatch]
+  );
+
   useEffect(() => {
     getTotalPrice();
   }, [ingredients, getTotalPrice]);
 
-  const handlerOrder = () => {
-    const ingredientsIds = ingredients.map((el) => el._id);
-    fetch(API + 'orders', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        ingredients: ingredientsIds,
-      }),
-    })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error(`Ошибка ${response.status}`);
-      })
-      .then((result) => {
-        const { number } = result.order;
-        setOrders([...orders, number]);
-        setIsModalOpen(true);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
-  };
-
   return (
     <>
-      <div className={styles.constructor}>
-        {bun && (
-          <ConstructorCard type={'top'} isLocked={true} ingredient={bun} />
+      <section
+        className={`${styles.section} ${
+          isHover ? styles.onHover : ''
+        } mt-25 ml-5 mr-5`}
+        ref={dropTargetRef}
+      >
+        {isConstructor && (
+          <>
+            <div className={styles.constructor}>
+              {bun && (
+                <ConstructorCard
+                  type={'top'}
+                  isLocked={true}
+                  ingredient={bun}
+                />
+              )}
+              <div className={`${styles.constructorWrap} ml-2 custom-scroll`}>
+                {rest &&
+                  rest.map((item, index) => (
+                    <ConstructorCard
+                      key={item.dragId}
+                      isLocked={false}
+                      ingredient={item}
+                      index={index}
+                      moveCard={moveCard}
+                    />
+                  ))}
+              </div>
+              {bun && (
+                <ConstructorCard
+                  type={'bottom'}
+                  isLocked={true}
+                  ingredient={bun}
+                />
+              )}
+            </div>
+            <div className={`${styles.total} mt-10 mr-4`}>
+              <div className={`${styles.price} mr-10`}>
+                <span className="text text_type_digits-medium mr-2">
+                  {totalPrice}
+                </span>
+                <CurrencyIcon type="primary" />
+              </div>
+              <Button
+                htmlType="button"
+                type="primary"
+                size="large"
+                onClick={handlerOrder}
+              >
+                Оформить заказ
+              </Button>
+            </div>
+          </>
         )}
-        <div className={`${styles.constructorWrap} ml-2 custom-scroll`}>
-          {rest &&
-            rest.map((item) => (
-              <ConstructorCard
-                key={item._id}
-                isLocked={false}
-                ingredient={item}
-              />
-            ))}
-        </div>
-        {bun && (
-          <ConstructorCard type={'bottom'} isLocked={true} ingredient={bun} />
-        )}
-      </div>
-      <div className={`${styles.total} mt-10 mr-4`}>
-        <div className={`${styles.price} mr-10`}>
-          <span className="text text_type_digits-medium mr-2">
-            {totalPrice}
-          </span>
-          <CurrencyIcon type="primary" />
-        </div>
-        <Button
-          htmlType="button"
-          type="primary"
-          size="large"
-          onClick={handlerOrder}
-        >
-          Оформить заказ
-        </Button>
-      </div>
+      </section>
       <Modal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}>
-        <OrderDetails orderNumber={orders[orders.length - 1]} />
+        <OrderDetails number={currentOrder?.number} />
       </Modal>
     </>
   );
