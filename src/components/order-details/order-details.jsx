@@ -1,12 +1,15 @@
 import styles from './order-details.module.css';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
 import done from '../../images/done.png';
 
-const OrderDetails = ({ orderNumber }) => {
-  return (
+const OrderDetails = ({ number }) => {
+  const { orderRequest, orderError } = useSelector((state) => state.orders);
+
+  return !orderRequest && !orderError ? (
     <div className={`${styles.details} mt-5 mb-15`}>
-      <span className="text text_type_digits-large">{orderNumber}</span>
+      <span className="text text_type_digits-large">{number}</span>
       <p className="text text_type_main-medium mt-8 mb-15">
         идентификатор заказа
       </p>
@@ -18,13 +21,19 @@ const OrderDetails = ({ orderNumber }) => {
         Дождитесь готовности на орбитальной станции
       </p>
     </div>
+  ) : (
+    <p
+      className={`${styles.text} text text_type_main-default text_color_inactive mt-20`}
+    >
+      Отправка данных...
+    </p>
   );
 };
 
 OrderDetails.defaultProps = { orderNumber: 0 };
 
 OrderDetails.propTypes = {
-  orderNumber: PropTypes.number.isRequired,
+  number: PropTypes.number,
 };
 
 export default OrderDetails;

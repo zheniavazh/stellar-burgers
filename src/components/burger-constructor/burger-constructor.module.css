@@ -1,3 +1,11 @@
+.section {
+  width: 600px;
+}
+
+.onHover {
+  background-color: #1c1c21;
+}
+
 .constructor {
   display: flex;
   align-items: center;
@@ -28,4 +36,8 @@
 .price svg {
   width: 36px;
   height: 36px;
+}
+
+.text {
+  text-align: end;
 }
