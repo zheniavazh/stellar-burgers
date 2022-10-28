@@ -32,8 +32,6 @@ export function getIngredients() {
   };
 }
 
-export const ADD_CURRENT_INGREDIENT = 'ADD_CURRENT_INGREDIENT';
-export const DELETE_CURRENT_INGREDIENT = 'DELETE_CURRENT_INGREDIENT';
 export const INCREASE_BUN_COUNT = 'INCREASE_BUN_COUNT';
 export const INCREASE_COUNT = 'INCREASE_COUNT';
 export const DECREASE_COUNT = 'DECREASE_COUNT';

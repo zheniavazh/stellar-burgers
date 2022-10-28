@@ -5,22 +5,34 @@ import PropTypes from 'prop-types';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 import { useDispatch, useSelector } from 'react-redux';
-import { DELETE_CURRENT_INGREDIENT } from '../../services/actions/ingredients';
 import { DELETE_CURRENT_ORDER } from '../../services/actions/orders';
+import { useNavigate } from 'react-router-dom';
+import {
+  HIDE_INGREDIENT_MODAL,
+  HIDE_ORDER_MODAL,
+} from '../../services/actions/modal';
 
 const modal = document.getElementById('modal');
 
-const Modal = ({ isModalOpen, setIsModalOpen, modalTitle, children }) => {
+const Modal = ({ modalTitle, children }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const { currentIngredient } = useSelector((state) => state.ingredients);
+  const { isIngredientModal, isOrderModal } = useSelector(
+    (state) => state.modal
+  );
+  const isModalOpen = isIngredientModal || isOrderModal;
+
   const { currentOrder } = useSelector((state) => state.orders);
 
   const handlerCloseModal = useCallback(() => {
-    setIsModalOpen(false);
-    currentIngredient && dispatch({ type: DELETE_CURRENT_INGREDIENT });
+    isIngredientModal && dispatch({ type: HIDE_INGREDIENT_MODAL });
+    isOrderModal && dispatch({ type: HIDE_ORDER_MODAL });
+    navigate(-1, {
+      state: null,
+    });
     currentOrder && dispatch({ type: DELETE_CURRENT_ORDER });
-  }, [setIsModalOpen, currentIngredient, currentOrder, dispatch]);
+  }, [isIngredientModal, isOrderModal, dispatch, navigate, currentOrder]);
 
   useEffect(() => {
     const handlerKeyDown = (e) => {
@@ -39,25 +51,21 @@ const Modal = ({ isModalOpen, setIsModalOpen, modalTitle, children }) => {
   }, [isModalOpen, handlerCloseModal]);
 
   return createPortal(
-    isModalOpen && (
-      <>
-        <div className={`${styles.modal} pt-10 pb-15 pl-10 pr-10`}>
-          <div className={styles.header}>
-            <p className="text text_type_main-large">{modalTitle}</p>
-            <CloseIcon type="primary" onClick={handlerCloseModal} />
-          </div>
-          {children}
+    <>
+      <div className={`${styles.modal} pt-10 pb-15 pl-10 pr-10`}>
+        <div className={styles.header}>
+          <p className="text text_type_main-large">{modalTitle}</p>
+          <CloseIcon type="primary" onClick={handlerCloseModal} />
         </div>
-        <ModalOverlay onClose={handlerCloseModal} />
-      </>
-    ),
+        {children}
+      </div>
+      <ModalOverlay onClose={handlerCloseModal} />
+    </>,
     modal
   );
 };
 
 Modal.propTypes = {
-  isModalOpen: PropTypes.bool.isRequired,
-  setIsModalOpen: PropTypes.func.isRequired,
   modalTitle: PropTypes.string,
   children: PropTypes.node.isRequired,
 };

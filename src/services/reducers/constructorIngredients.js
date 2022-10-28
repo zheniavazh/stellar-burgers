@@ -3,6 +3,7 @@ import {
   ADD_INGREDIENT,
   DELETE_INGREDIENT,
   UPDATE_CONSTRUCTOR,
+  DELETE_CONSTRUCTOR,
 } from '../actions/constructorIngredients';
 
 const initialConstructorIngredientsState = {
@@ -47,6 +48,13 @@ export const constructorIngredientsReducer = (
       return {
         ...state,
         ingredients: [bun, ...action.payload],
+      };
+    }
+    case DELETE_CONSTRUCTOR: {
+      return {
+        ...state,
+        isConstructor: false,
+        ingredients: [],
       };
     }
     default: {

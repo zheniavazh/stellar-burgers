@@ -16,3 +16,8 @@
   justify-content: space-between;
   flex-wrap: wrap;
 }
+
+.list a {
+  text-decoration: none;
+  color: #f2f2f3;
+}

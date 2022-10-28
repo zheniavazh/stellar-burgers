@@ -25,6 +25,10 @@
   text-decoration: none;
 }
 
+.active {
+  color: #f2f2f3;
+}
+
 .align {
   margin-left: auto;
 }

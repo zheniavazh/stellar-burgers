@@ -14,6 +14,7 @@ export function getOrder(payload) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        authorization: `Bearer ${window.localStorage.getItem('token')}`,
       },
       body: JSON.stringify({
         ingredients: payload,
