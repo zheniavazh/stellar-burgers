@@ -1,4 +1,5 @@
 import { API } from '../../constants';
+import { request } from '../../utils/request';
 
 export const SIGN_UP = 'SIGN_UP';
 export const SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS';
@@ -30,19 +31,13 @@ export function signUp(payload) {
     dispatch({
       type: SIGN_UP,
     });
-    fetch(API + 'auth/register', {
+    request(API + 'auth/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(payload),
     })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error(`Ошибка ${response.status}`);
-      })
       .then((result) => {
         const { user, accessToken, refreshToken } = result;
         window.localStorage.setItem('token', accessToken.split('Bearer ')[1]);
@@ -66,19 +61,13 @@ export function signIn(payload) {
     dispatch({
       type: SIGN_IN,
     });
-    fetch(API + 'auth/login', {
+    request(API + 'auth/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(payload),
     })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error(`Ошибка ${response.status}`);
-      })
       .then((result) => {
         const { user, accessToken, refreshToken } = result;
         window.localStorage.setItem('token', accessToken.split('Bearer ')[1]);
@@ -103,19 +92,13 @@ export function resetPassword(payload) {
     dispatch({
       type: RESET_PASSWORD,
     });
-    fetch(API + 'password-reset', {
+    request(API + 'password-reset', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(payload),
     })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error(`Ошибка ${response.status}`);
-      })
       .then((result) => {
         const { message } = result;
         dispatch({
@@ -137,19 +120,13 @@ export function confirmPassword(payload) {
     dispatch({
       type: CONFIRM_PASSWORD,
     });
-    fetch(API + 'password-reset/reset', {
+    request(API + 'password-reset/reset', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(payload),
     })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error(`Ошибка ${response.status}`);
-      })
       .then((result) => {
         const { message } = result;
         dispatch({
@@ -171,19 +148,13 @@ export function logOut() {
     dispatch({
       type: LOG_OUT,
     });
-    fetch(API + 'auth/logout', {
+    request(API + 'auth/logout', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ token: window.localStorage.getItem('refresh') }),
     })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error(`Ошибка ${response.status}`);
-      })
       .then((result) => {
         const { message } = result;
         dispatch({
@@ -208,19 +179,13 @@ export function updateToken() {
     dispatch({
       type: UPDATE_TOKEN,
     });
-    fetch(API + 'auth/token', {
+    request(API + 'auth/token', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ token: window.localStorage.getItem('refresh') }),
     })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error(`Ошибка ${response.status}`);
-      })
       .then((result) => {
         const { accessToken, refreshToken } = result;
         window.localStorage.setItem('token', accessToken.split('Bearer ')[1]);
@@ -244,18 +209,12 @@ export function getUser() {
     dispatch({
       type: GET_USER,
     });
-    fetch(API + 'auth/user', {
+    request(API + 'auth/user', {
       method: 'GET',
       headers: {
         authorization: `Bearer ${window.localStorage.getItem('token')}`,
       },
     })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error(`Ошибка ${response.status}`);
-      })
       .then((result) => {
         const { user } = result;
         dispatch({
@@ -277,7 +236,7 @@ export function updateUser(payload) {
     dispatch({
       type: UPDATE_USER,
     });
-    fetch(API + 'auth/user', {
+    request(API + 'auth/user', {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -285,12 +244,6 @@ export function updateUser(payload) {
       },
       body: JSON.stringify(payload),
     })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error(`Ошибка ${response.status}`);
-      })
       .then((result) => {
         const { user } = result;
         dispatch({

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import styles from './login.module.css';
 import {
   Button,
@@ -8,6 +8,7 @@ import {
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { signIn } from '../../services/actions/auth';
+import { useForm } from '../../hooks/useForm';
 
 const LoginPage = () => {
   const dispatch = useDispatch();
@@ -17,14 +18,14 @@ const LoginPage = () => {
 
   const { currentUser } = useSelector((state) => state.auth);
 
-  const [value, setValue] = useState({ email: '', password: '' });
-  const handlerChange = (e) => {
-    setValue({ ...value, [e.target.name]: e.target.value });
-  };
+  const { values, handlerChange } = useForm({
+    email: '',
+    password: '',
+  });
 
   const login = (e) => {
     e.preventDefault();
-    dispatch(signIn(value));
+    dispatch(signIn(values));
   };
 
   useEffect(() => {
@@ -41,12 +42,12 @@ const LoginPage = () => {
         <p className="text text_type_main-medium">Вход</p>
         <EmailInput
           onChange={handlerChange}
-          value={value.email}
+          value={values.email}
           name={'email'}
         />
         <PasswordInput
           onChange={handlerChange}
-          value={value.password}
+          value={values.password}
           name={'password'}
         />
         <Button htmlType="submit" type="primary" size="medium">

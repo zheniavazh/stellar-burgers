@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { BUN, SAUCE, MAIN } from '../../constants';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { SHOW_INGREDIENT_MODAL } from '../../services/actions/modal';
+import { useInView } from 'react-intersection-observer';
 
 const BurgerIngredients = () => {
   const dispatch = useDispatch();
@@ -19,14 +20,36 @@ const BurgerIngredients = () => {
   const sauces = ingredients.filter((el) => el.type === SAUCE);
   const mains = ingredients.filter((el) => el.type === MAIN);
 
+  const [bunsRef, inViewBuns] = useInView({
+    threshold: 0,
+  });
+  const [saucesRef, inViewSauces] = useInView({
+    threshold: 0,
+  });
+  const [mainsRef, inViewMains] = useInView({
+    threshold: 0,
+  });
+
   useEffect(() => {
-    const container = document.querySelector('.container');
-    const element = document.getElementById(currentTab);
+    if (inViewBuns) {
+      setCurrentTab('Булки');
+    } else if (inViewSauces) {
+      setCurrentTab('Соусы');
+    } else if (inViewMains) {
+      setCurrentTab('Начинки');
+    }
+  }, [inViewBuns, inViewSauces, inViewMains]);
+
+  const container = document.querySelector('.container');
+
+  const setTab = (tab) => {
+    setCurrentTab(tab);
+    const element = document.getElementById(tab);
     container.scrollTo({
       top: element.offsetTop - container.offsetTop,
       behavior: 'smooth',
     });
-  }, [currentTab]);
+  };
 
   const handlerOpenModal = (ingredientId) => {
     dispatch({ type: SHOW_INGREDIENT_MODAL });
@@ -42,21 +65,21 @@ const BurgerIngredients = () => {
         <Tab
           value="Булки"
           active={currentTab === 'Булки'}
-          onClick={setCurrentTab}
+          onClick={() => setTab('Булки')}
         >
           Булки
         </Tab>
         <Tab
           value="Соусы"
           active={currentTab === 'Соусы'}
-          onClick={setCurrentTab}
+          onClick={() => setTab('Соусы')}
         >
           Соусы
         </Tab>
         <Tab
           value="Начинки"
           active={currentTab === 'Начинки'}
-          onClick={setCurrentTab}
+          onClick={() => setTab('Начинки')}
         >
           Начинки
         </Tab>
@@ -64,7 +87,7 @@ const BurgerIngredients = () => {
       <div
         className={` ${styles.container} container mt-10 mb-10 custom-scroll`}
       >
-        <div className="mb-2" id="Булки">
+        <div className="mb-2" id="Булки" ref={bunsRef}>
           <p className="text text_type_main-medium mb-6">Булки</p>
           <div className={`${styles.list} ml-4 mr-1`}>
             {buns.map((item) => (
@@ -77,7 +100,7 @@ const BurgerIngredients = () => {
             ))}
           </div>
         </div>
-        <div className="mb-2" id="Соусы">
+        <div className="mb-2" id="Соусы" ref={saucesRef}>
           <p className="text text_type_main-medium mb-6">Соусы</p>
           <div className={`${styles.list} ml-4 mr-1`}>
             {sauces.map((item) => (
@@ -90,7 +113,7 @@ const BurgerIngredients = () => {
             ))}
           </div>
         </div>
-        <div className="mb-2" id="Начинки">
+        <div className="mb-2" id="Начинки" ref={mainsRef}>
           <p className="text text_type_main-medium mb-6">Начинки</p>
           <div className={`${styles.list} ml-4 mr-1`}>
             {mains.map((item) => (

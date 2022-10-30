@@ -1,14 +1,14 @@
 import styles from './order-details.module.css';
-import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
 import done from '../../images/done.png';
 
 const OrderDetails = () => {
-  const { currentOrder } = useSelector((state) => state.orders);
+  const { orderNumber } = useParams();
 
   return (
     <div className={`${styles.details} mt-5 mb-15`}>
-      <span className="text text_type_digits-large">{currentOrder.number}</span>
+      <span className="text text_type_digits-large">{orderNumber}</span>
       <p className="text text_type_main-medium mt-8 mb-15">
         идентификатор заказа
       </p>

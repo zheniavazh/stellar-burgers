@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import styles from './reset-password.module.css';
 import {
   Button,
@@ -8,6 +8,7 @@ import {
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { confirmPassword } from '../../services/actions/auth';
+import { useForm } from '../../hooks/useForm';
 
 const ResetPasswordPage = () => {
   const dispatch = useDispatch();
@@ -17,14 +18,11 @@ const ResetPasswordPage = () => {
 
   const { currentUser } = useSelector((state) => state.auth);
 
-  const [value, setValue] = useState({ password: '', token: '' });
-  const handlerChange = (e) => {
-    setValue({ ...value, [e.target.name]: e.target.value });
-  };
+  const { values, handlerChange } = useForm({ password: '', token: '' });
 
   const reset = (e) => {
     e.preventDefault();
-    dispatch(confirmPassword(value));
+    dispatch(confirmPassword(values));
     navigate('/login', { replace: true });
   };
 
@@ -43,7 +41,7 @@ const ResetPasswordPage = () => {
         <p className="text text_type_main-medium">Восстановление пароля</p>
         <PasswordInput
           onChange={handlerChange}
-          value={value.password}
+          value={values.password}
           name={'password'}
           placeholder="Введите новый пароль"
         />
@@ -51,7 +49,7 @@ const ResetPasswordPage = () => {
           type={'text'}
           placeholder={'Введите код из письма'}
           onChange={handlerChange}
-          value={value.token}
+          value={values.token}
           name={'token'}
         />
         <Button htmlType="submit" type="primary" size="medium">

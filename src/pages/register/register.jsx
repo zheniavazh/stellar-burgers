@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import styles from './register.module.css';
 import {
   Button,
@@ -9,6 +9,7 @@ import {
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { signUp } from '../../services/actions/auth';
+import { useForm } from '../../hooks/useForm';
 
 const RegisterPage = () => {
   const dispatch = useDispatch();
@@ -16,14 +17,15 @@ const RegisterPage = () => {
 
   const { currentUser } = useSelector((state) => state.auth);
 
-  const [value, setValue] = useState({ name: '', email: '', password: '' });
-  const handlerChange = (e) => {
-    setValue({ ...value, [e.target.name]: e.target.value });
-  };
+  const { values, handlerChange } = useForm({
+    name: '',
+    email: '',
+    password: '',
+  });
 
   const register = (e) => {
     e.preventDefault();
-    dispatch(signUp(value));
+    dispatch(signUp(values));
   };
 
   useEffect(() => {
@@ -40,17 +42,17 @@ const RegisterPage = () => {
           type={'text'}
           placeholder={'Имя'}
           onChange={handlerChange}
-          value={value.name}
+          value={values.name}
           name={'name'}
         />
         <EmailInput
           onChange={handlerChange}
-          value={value.email}
+          value={values.email}
           name={'email'}
         />
         <PasswordInput
           onChange={handlerChange}
-          value={value.password}
+          value={values.password}
           name={'password'}
         />
         <Button htmlType="submit" type="primary" size="medium">

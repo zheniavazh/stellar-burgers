@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import styles from './forgot-password.module.css';
 import {
   Button,
@@ -7,6 +7,7 @@ import {
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetPassword } from '../../services/actions/auth';
+import { useForm } from '../../hooks/useForm';
 
 const ForgotPasswordPage = () => {
   const dispatch = useDispatch();
@@ -14,17 +15,14 @@ const ForgotPasswordPage = () => {
 
   const { currentUser } = useSelector((state) => state.auth);
 
-  const [value, setValue] = useState({ email: '' });
-  const handlerChange = (e) => {
-    setValue({ ...value, [e.target.name]: e.target.value });
-  };
+  const { values, handlerChange } = useForm({ email: '' });
 
   const reset = (e) => {
     e.preventDefault();
-    dispatch(resetPassword(value));
+    dispatch(resetPassword(values));
     navigate('/reset-password', {
       replace: true,
-      state: { email: value.email },
+      state: { email: values.email },
     });
   };
 
@@ -40,7 +38,7 @@ const ForgotPasswordPage = () => {
         <p className="text text_type_main-medium">Восстановление пароля</p>
         <EmailInput
           onChange={handlerChange}
-          value={value.email}
+          value={values.email}
           name={'email'}
           placeholder="Укажите e-mail"
         />

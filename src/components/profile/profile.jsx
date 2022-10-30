@@ -8,6 +8,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateToken, updateUser } from '../../services/actions/auth';
+import { useForm } from '../../hooks/useForm';
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -21,15 +22,10 @@ const Profile = () => {
     email: currentUser?.email,
     password: '',
   };
-  const [value, setValue] = useState(initialState);
-
-  const handlerChange = (e) => {
-    setValue({ ...value, [e.target.name]: e.target.value });
-    showButtons(true);
-  };
+  const { values, setValues, handlerChange } = useForm(initialState);
 
   const handlerCancel = () => {
-    setValue(initialState);
+    setValues(initialState);
     showButtons(false);
   };
 
@@ -38,7 +34,7 @@ const Profile = () => {
     if (token && Date.now() >= Number(token) + 1200 * 1000) {
       dispatch(updateToken());
     }
-    dispatch(updateUser(value));
+    dispatch(updateUser(values));
     showButtons(false);
   };
 
@@ -48,19 +44,19 @@ const Profile = () => {
         type={'text'}
         placeholder={'Имя'}
         onChange={handlerChange}
-        value={value.name || ''}
+        value={values.name || ''}
         name={'name'}
         icon={'EditIcon'}
       />
       <EmailInput
         onChange={handlerChange}
-        value={value.email || ''}
+        value={values.email || ''}
         name={'email'}
         icon={'EditIcon'}
       />
       <PasswordInput
         onChange={handlerChange}
-        value={value.password}
+        value={values.password}
         name={'password'}
         icon={'EditIcon'}
       />
