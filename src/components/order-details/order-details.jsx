@@ -1,15 +1,14 @@
 import styles from './order-details.module.css';
-import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
 import done from '../../images/done.png';
 
-const OrderDetails = ({ number }) => {
-  const { orderRequest, orderError } = useSelector((state) => state.orders);
+const OrderDetails = () => {
+  const { orderNumber } = useParams();
 
-  return !orderRequest && !orderError ? (
+  return (
     <div className={`${styles.details} mt-5 mb-15`}>
-      <span className="text text_type_digits-large">{number}</span>
+      <span className="text text_type_digits-large">{orderNumber}</span>
       <p className="text text_type_main-medium mt-8 mb-15">
         идентификатор заказа
       </p>
@@ -21,19 +20,7 @@ const OrderDetails = ({ number }) => {
         Дождитесь готовности на орбитальной станции
       </p>
     </div>
-  ) : (
-    <p
-      className={`${styles.text} text text_type_main-default text_color_inactive mt-20`}
-    >
-      Отправка данных...
-    </p>
   );
-};
-
-OrderDetails.defaultProps = { orderNumber: 0 };
-
-OrderDetails.propTypes = {
-  number: PropTypes.number,
 };
 
 export default OrderDetails;

@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux';
 import { useDrag, useDrop } from 'react-dnd';
 import { DELETE_INGREDIENT } from '../../services/actions/constructorIngredients';
 import { DECREASE_COUNT } from '../../services/actions/ingredients';
+import { BUN } from '../../constants';
 
 const ConstructorCard = ({ type, isLocked, ingredient, index, moveCard }) => {
   const dispatch = useDispatch();
@@ -63,7 +64,7 @@ const ConstructorCard = ({ type, isLocked, ingredient, index, moveCard }) => {
     },
   });
 
-  if (ingredient.type !== 'bun') drag(drop(ref));
+  if (ingredient.type !== BUN) drag(drop(ref));
 
   const handleClose = (payload) => {
     dispatch({ type: DELETE_INGREDIENT, payload });

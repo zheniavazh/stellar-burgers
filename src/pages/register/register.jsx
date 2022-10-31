@@ -1,0 +1,76 @@
+import { useEffect } from 'react';
+import styles from './register.module.css';
+import {
+  Button,
+  Input,
+  EmailInput,
+  PasswordInput,
+} from '@ya.praktikum/react-developer-burger-ui-components';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { signUp } from '../../services/actions/auth';
+import { useForm } from '../../hooks/useForm';
+
+const RegisterPage = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { currentUser } = useSelector((state) => state.auth);
+
+  const { values, handlerChange } = useForm({
+    name: '',
+    email: '',
+    password: '',
+  });
+
+  const register = (e) => {
+    e.preventDefault();
+    dispatch(signUp(values));
+  };
+
+  useEffect(() => {
+    if (currentUser) {
+      navigate('/', { replace: true });
+    }
+  }, [currentUser, navigate]);
+
+  return (
+    <div className={styles.container}>
+      <form className={styles.form} onSubmit={register}>
+        <p className="text text_type_main-medium">Регистрация</p>
+        <Input
+          type={'text'}
+          placeholder={'Имя'}
+          onChange={handlerChange}
+          value={values.name}
+          name={'name'}
+        />
+        <EmailInput
+          onChange={handlerChange}
+          value={values.email}
+          name={'email'}
+        />
+        <PasswordInput
+          onChange={handlerChange}
+          value={values.password}
+          name={'password'}
+        />
+        <Button htmlType="submit" type="primary" size="medium">
+          Зарегистрироваться
+        </Button>
+      </form>
+      <div className="mt-20">
+        <p
+          className={`${styles.text} text text_type_main-default text_color_inactive mt-4`}
+        >
+          Уже зарегистрированы?{' '}
+          <NavLink to="/login" className={styles.link}>
+            Войти
+          </NavLink>
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default RegisterPage;

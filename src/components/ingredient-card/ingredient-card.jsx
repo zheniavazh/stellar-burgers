@@ -20,7 +20,7 @@ const IngredientCard = ({ ingredient, count, onModalOpen }) => {
     <div
       className={`${styles.card} mb-8`}
       style={{ opacity }}
-      onClick={() => onModalOpen(ingredient)}
+      onClick={() => onModalOpen(ingredient._id)}
       ref={dragRef}
     >
       <img src={ingredient.image} alt={ingredient.name} />

@@ -1,4 +1,5 @@
 import { API } from '../../constants';
+import { request } from '../../utils/request';
 
 export const GET_ORDER = 'GET_ORDER';
 export const GET_ORDER_SUCCESS = 'GET_ORDER_SUCCESS';
@@ -10,21 +11,16 @@ export function getOrder(payload) {
     dispatch({
       type: GET_ORDER,
     });
-    fetch(API + 'orders', {
+    request(API + 'orders', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        authorization: `Bearer ${window.localStorage.getItem('token')}`,
       },
       body: JSON.stringify({
         ingredients: payload,
       }),
     })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error(`Ошибка ${response.status}`);
-      })
       .then((result) => {
         const { order } = result;
         dispatch({

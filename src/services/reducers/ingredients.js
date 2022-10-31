@@ -2,8 +2,6 @@ import {
   GET_INGREDIENTS,
   GET_INGREDIENTS_ERROR,
   GET_INGREDIENTS_SUCCESS,
-  ADD_CURRENT_INGREDIENT,
-  DELETE_CURRENT_INGREDIENT,
   INCREASE_BUN_COUNT,
   INCREASE_COUNT,
   DECREASE_COUNT,
@@ -13,7 +11,6 @@ const initialIngredientsState = {
   ingredients: [],
   ingredientsRequest: false,
   ingredientsError: false,
-  currentIngredient: null,
 };
 
 export const ingredientsReducer = (state = initialIngredientsState, action) => {
@@ -38,18 +35,6 @@ export const ingredientsReducer = (state = initialIngredientsState, action) => {
         ingredients: [],
         ingredientsError: true,
         ingredientsRequest: false,
-      };
-    }
-    case ADD_CURRENT_INGREDIENT: {
-      return {
-        ...state,
-        currentIngredient: { ...action.payload },
-      };
-    }
-    case DELETE_CURRENT_INGREDIENT: {
-      return {
-        ...state,
-        currentIngredient: null,
       };
     }
     case INCREASE_BUN_COUNT: {
