@@ -6,21 +6,21 @@ import {
   PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import { confirmPassword } from '../../services/actions/auth';
 import { useForm } from '../../hooks/useForm';
+import { useAppDispatch, useAppSelector } from '../../index';
 
 const ResetPasswordPage = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const email = location.state && location.state.email;
 
-  const { currentUser } = useSelector((state) => state.auth);
+  const { currentUser } = useAppSelector((state) => state.auth);
 
   const { values, handlerChange } = useForm({ password: '', token: '' });
 
-  const reset = (e) => {
+  const reset = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(confirmPassword(values));
     navigate('/login', { replace: true });
@@ -58,8 +58,7 @@ const ResetPasswordPage = () => {
       </form>
       <div className="mt-20">
         <p
-          className={`${styles.text} text text_type_main-default text_color_inactive mt-4`}
-        >
+          className={`${styles.text} text text_type_main-default text_color_inactive mt-4`}>
           Вспомнили пароль?{' '}
           <NavLink to="/login" className={styles.link}>
             Войти

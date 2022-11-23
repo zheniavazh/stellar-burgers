@@ -1,13 +1,22 @@
 import styles from './ingredient-card.module.css';
-import PropTypes from 'prop-types';
 import {
   CurrencyIcon,
   Counter,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { ingredientType } from '../../utils/types';
 import { useDrag } from 'react-dnd';
+import { TIngredient } from '../../utils/types';
 
-const IngredientCard = ({ ingredient, count, onModalOpen }) => {
+type TIngredientCardProps = {
+  ingredient: TIngredient;
+  count: number;
+  onModalOpen: (_id: string) => void;
+};
+
+const IngredientCard = ({
+  ingredient,
+  count,
+  onModalOpen,
+}: TIngredientCardProps) => {
   const [{ opacity }, dragRef] = useDrag({
     type: 'ingredients',
     item: ingredient,
@@ -21,8 +30,7 @@ const IngredientCard = ({ ingredient, count, onModalOpen }) => {
       className={`${styles.card} mb-8`}
       style={{ opacity }}
       onClick={() => onModalOpen(ingredient._id)}
-      ref={dragRef}
-    >
+      ref={dragRef}>
       <img src={ingredient.image} alt={ingredient.name} />
       <div className={styles.cardPrice}>
         <p className="text text_type_digits-default mt-2 mb-2 mr-2">
@@ -36,12 +44,6 @@ const IngredientCard = ({ ingredient, count, onModalOpen }) => {
       {count > 0 && <Counter count={count} size="default" />}
     </div>
   );
-};
-
-IngredientCard.propTypes = {
-  ingredient: ingredientType,
-  count: PropTypes.number,
-  onModalOpen: PropTypes.func.isRequired,
 };
 
 export default IngredientCard;

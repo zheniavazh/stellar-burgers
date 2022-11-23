@@ -1,18 +1,31 @@
 import { useRef } from 'react';
 import styles from './constructor-card.module.css';
-import PropTypes from 'prop-types';
 import {
   DragIcon,
   ConstructorElement,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { ingredientType } from '../../utils/types';
 import { useDispatch } from 'react-redux';
 import { useDrag, useDrop } from 'react-dnd';
 import { DELETE_INGREDIENT } from '../../services/actions/constructorIngredients';
 import { DECREASE_COUNT } from '../../services/actions/ingredients';
 import { BUN } from '../../constants';
+import { TIngredient } from '../../utils/types';
 
-const ConstructorCard = ({ type, isLocked, ingredient, index, moveCard }) => {
+type TConstructorCardProps = {
+  type?: 'top' | 'bottom';
+  isLocked: boolean;
+  ingredient: TIngredient;
+  index?: number;
+  moveCard?: (dragIndex: number, hoverIndex: number) => void;
+};
+
+const ConstructorCard = ({
+  type,
+  isLocked,
+  ingredient,
+  index,
+  moveCard,
+}: TConstructorCardProps) => {
   const dispatch = useDispatch();
 
   let text = ingredient.name;
@@ -22,11 +35,11 @@ const ConstructorCard = ({ type, isLocked, ingredient, index, moveCard }) => {
     text = `${ingredient.name} (низ)`;
   }
 
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
 
   const [{ opacity }, drag] = useDrag({
     type: 'card',
-    item: (item) => ({ id: item.dragId, index }),
+    item: (item: any) => ({ id: item.dragId, index }),
     collect: (monitor) => ({
       opacity: monitor.isDragging() ? 0.5 : 1,
     }),
@@ -39,7 +52,7 @@ const ConstructorCard = ({ type, isLocked, ingredient, index, moveCard }) => {
         handlerId: monitor.getHandlerId(),
       };
     },
-    hover(item, monitor) {
+    hover(item: any, monitor) {
       if (!ref.current) {
         return;
       }
@@ -52,21 +65,25 @@ const ConstructorCard = ({ type, isLocked, ingredient, index, moveCard }) => {
       const hoverMiddleY =
         (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const clientOffset = monitor.getClientOffset();
-      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
-      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-        return;
+      if (clientOffset !== null) {
+        const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+        if (hoverIndex !== undefined) {
+          if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+            return;
+          }
+          if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+            return;
+          }
+          moveCard && moveCard(dragIndex, hoverIndex);
+          item.index = hoverIndex;
+        }
       }
-      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-        return;
-      }
-      moveCard(dragIndex, hoverIndex);
-      item.index = hoverIndex;
     },
   });
 
   if (ingredient.type !== BUN) drag(drop(ref));
 
-  const handleClose = (payload) => {
+  const handleClose = (payload: TIngredient) => {
     dispatch({ type: DELETE_INGREDIENT, payload });
     dispatch({ type: DECREASE_COUNT, payload });
   };
@@ -79,9 +96,8 @@ const ConstructorCard = ({ type, isLocked, ingredient, index, moveCard }) => {
       style={{ opacity }}
       ref={type === undefined ? ref : null}
       onDrop={(e) => e.preventDefault()}
-      data-handler-id={handlerId}
-    >
-      {type === undefined && <DragIcon />}
+      data-handler-id={handlerId}>
+      {type === undefined && <DragIcon type="primary" />}
       <ConstructorElement
         type={type}
         isLocked={isLocked}
@@ -92,14 +108,6 @@ const ConstructorCard = ({ type, isLocked, ingredient, index, moveCard }) => {
       />
     </div>
   );
-};
-
-ConstructorCard.propTypes = {
-  type: PropTypes.string,
-  isLocked: PropTypes.bool,
-  ingredient: ingredientType.isRequired,
-  index: PropTypes.number,
-  moveCard: PropTypes.func,
 };
 
 export default ConstructorCard;

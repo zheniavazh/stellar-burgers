@@ -6,7 +6,6 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { v4 as uuidv4 } from 'uuid';
 import ConstructorCard from '../constructor-card/constructor-card';
-import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
 import {
   ADD_BUN,
@@ -17,23 +16,35 @@ import {
 import {
   INCREASE_BUN_COUNT,
   INCREASE_COUNT,
+  DELETE_COUNT,
 } from '../../services/actions/ingredients';
 import { getOrder } from '../../services/actions/orders';
 import { BUN } from '../../constants';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { getUser, updateToken } from '../../services/actions/auth';
 import { SHOW_ORDER_MODAL } from '../../services/actions/modal';
+import { useAppDispatch, useAppSelector } from '../../index';
+import { TIngredient, TOrder } from '../../utils/types';
 
-const BurgerConstructor = () => {
-  const dispatch = useDispatch();
+type TBurgerConstructorProps = {
+  isConstructor: boolean;
+  ingredients: Array<TIngredient>;
+  orderRequest: boolean;
+  currentOrder: TOrder;
+};
+
+const BurgerConstructor = ({
+  isConstructor,
+  ingredients,
+  orderRequest,
+  currentOrder,
+}: TBurgerConstructorProps) => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
-  const { currentUser } = useSelector((state) => state.auth);
+  const { currentUser } = useAppSelector((state) => state.auth);
 
-  const { isConstructor, ingredients } = useSelector(
-    (state) => state.constructorIngredients
-  );
   const bun = ingredients.find((el) => el.type === BUN);
   const rest = ingredients.filter((el) => el.type !== BUN);
 
@@ -42,8 +53,6 @@ const BurgerConstructor = () => {
       .map((el) => (el.type === BUN ? el.price * 2 : el.price))
       .reduce((acc, price) => acc + price, 0);
   }, [ingredients]);
-
-  const { orderRequest, currentOrder } = useSelector((state) => state.orders);
 
   useEffect(() => {
     if (currentOrder) {
@@ -64,6 +73,7 @@ const BurgerConstructor = () => {
         const ingredientsIds = ingredients.map((el) => el._id);
         dispatch(getOrder(ingredientsIds));
         dispatch({ type: DELETE_CONSTRUCTOR });
+        dispatch({ type: DELETE_COUNT });
         dispatch({ type: SHOW_ORDER_MODAL });
       } else {
         navigate('/login', { state: { from: pathname } });
@@ -73,7 +83,7 @@ const BurgerConstructor = () => {
 
   const [{ isHover }, dropTargetRef] = useDrop({
     accept: 'ingredients',
-    drop(item) {
+    drop(item: any) {
       dropHandler(item);
     },
     collect: (monitor) => ({
@@ -81,7 +91,7 @@ const BurgerConstructor = () => {
     }),
   });
 
-  const dropHandler = (payload) => {
+  const dropHandler = (payload: TIngredient) => {
     if (payload.type === BUN) {
       dispatch({ type: ADD_BUN, payload });
       dispatch({ type: INCREASE_BUN_COUNT, payload });
@@ -95,7 +105,7 @@ const BurgerConstructor = () => {
   };
 
   const moveCard = useCallback(
-    (dragIndex, hoverIndex) => {
+    (dragIndex: number, hoverIndex: number) => {
       const dragCard = rest[dragIndex];
       const newCards = [...rest];
       newCards.splice(dragIndex, 1);
@@ -114,11 +124,10 @@ const BurgerConstructor = () => {
       className={`${styles.section} ${
         isHover ? styles.onHover : ''
       } mt-25 ml-5 mr-5`}
-      ref={dropTargetRef}
-    >
+      ref={dropTargetRef}>
       {isConstructor && (
         <>
-          <div className={styles.constructor}>
+          <div className={`${styles.constructor}`}>
             {bun && (
               <ConstructorCard type={'top'} isLocked={true} ingredient={bun} />
             )}
@@ -144,8 +153,7 @@ const BurgerConstructor = () => {
           </div>
           {!bun && (
             <p
-              className={`${styles.text} text text_type_main-default text_color_inactive mt-10 mr-4`}
-            >
+              className={`${styles.text} text text_type_main-default text_color_inactive mt-10 mr-4`}>
               Не забудьте добавить булку!
             </p>
           )}
@@ -160,8 +168,7 @@ const BurgerConstructor = () => {
               htmlType="button"
               type="primary"
               size="large"
-              onClick={handlerOrder}
-            >
+              onClick={handlerOrder}>
               Оформить заказ
             </Button>
           </div>
@@ -169,8 +176,7 @@ const BurgerConstructor = () => {
       )}
       {orderRequest && !currentOrder && (
         <p
-          className={`${styles.text} text text_type_main-default text_color_inactive mt-10 mr-4`}
-        >
+          className={`${styles.text} text text_type_main-default text_color_inactive mt-10 mr-4`}>
           Подождите, пожалуйста, идёт отправка данных...
         </p>
       )}

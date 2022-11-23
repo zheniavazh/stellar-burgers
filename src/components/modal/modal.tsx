@@ -5,11 +5,23 @@ import PropTypes from 'prop-types';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 
-const modal = document.getElementById('modal');
+const modal = document.getElementById('modal') as Element | DocumentFragment;
 
-const Modal = ({ isModalOpen, onCloseModal, modalTitle, children }) => {
+type TModalProps = {
+  isModalOpen: boolean;
+  onCloseModal: () => void;
+  modalTitle?: string;
+  children: React.ReactNode;
+};
+
+const Modal = ({
+  isModalOpen,
+  onCloseModal,
+  modalTitle,
+  children,
+}: TModalProps) => {
   useEffect(() => {
-    const handlerKeyDown = (e) => {
+    const handlerKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         onCloseModal();
       }

@@ -1,10 +1,10 @@
 import styles from './profile-nav.module.css';
-import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { logOut } from '../../services/actions/auth';
+import { useAppDispatch } from '../../index';
 
 const ProfileNav = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
@@ -18,8 +18,7 @@ const ProfileNav = () => {
       <NavLink
         to="/profile"
         end
-        className={`${styles.link} text text_type_main-medium`}
-      >
+        className={`${styles.link} text text_type_main-medium`}>
         {({ isActive }) => (
           <span className={isActive ? styles.active : 'text_color_inactive'}>
             Профиль
@@ -28,32 +27,28 @@ const ProfileNav = () => {
       </NavLink>
       <NavLink
         to="/profile/orders"
-        className={`${styles.link} text text_type_main-medium`}
-      >
+        className={`${styles.link} text text_type_main-medium`}>
         {({ isActive }) => (
           <span className={isActive ? styles.active : 'text_color_inactive'}>
             История заказов
           </span>
         )}
       </NavLink>
-      <Link
+      <span
         className={`${styles.link} text text_type_main-medium`}
-        onClick={logout}
-      >
+        onClick={logout}>
         <span className="text_color_inactive">Выход</span>
-      </Link>
+      </span>
       {pathname === '/profile' && (
         <p
-          className={`${styles.text} text text_type_main-default text_color_inactive mt-20`}
-        >
+          className={`${styles.text} text text_type_main-default text_color_inactive mt-20`}>
           В этом разделе вы можете <br />
           изменить свои персональные данные
         </p>
       )}
       {pathname === '/profile/orders' && (
         <p
-          className={`${styles.text} text text_type_main-default text_color_inactive mt-20`}
-        >
+          className={`${styles.text} text text_type_main-default text_color_inactive mt-20`}>
           В этом разделе вы можете просмотреть свою историю заказов
         </p>
       )}

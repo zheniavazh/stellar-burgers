@@ -6,24 +6,24 @@ import {
   PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import { signIn } from '../../services/actions/auth';
 import { useForm } from '../../hooks/useForm';
+import { useAppDispatch, useAppSelector } from '../../index';
 
 const LoginPage = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state && location.state.from;
 
-  const { currentUser } = useSelector((state) => state.auth);
+  const { currentUser } = useAppSelector((state) => state.auth);
 
   const { values, handlerChange } = useForm({
     email: '',
     password: '',
   });
 
-  const login = (e) => {
+  const login = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(signIn(values));
   };
@@ -56,16 +56,14 @@ const LoginPage = () => {
       </form>
       <div className="mt-20">
         <p
-          className={`${styles.text} text text_type_main-default text_color_inactive mt-4`}
-        >
+          className={`${styles.text} text text_type_main-default text_color_inactive mt-4`}>
           Вы — новый пользователь?{' '}
           <NavLink to="/register" className={styles.link}>
             Зарегистрироваться
           </NavLink>
         </p>
         <p
-          className={`${styles.text} text text_type_main-default text_color_inactive mt-4`}
-        >
+          className={`${styles.text} text text_type_main-default text_color_inactive mt-4`}>
           Забыли пароль?{' '}
           <NavLink to="/forgot-password" className={styles.link}>
             Восстановить пароль

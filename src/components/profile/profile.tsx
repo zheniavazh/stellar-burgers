@@ -6,23 +6,30 @@ import {
   PasswordInput,
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDispatch, useSelector } from 'react-redux';
 import { updateToken, updateUser } from '../../services/actions/auth';
-import { useForm } from '../../hooks/useForm';
+import { useAppDispatch, useAppSelector } from '../../index';
 
 const Profile = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const { currentUser } = useSelector((state) => state.auth);
+  const { currentUser } = useAppSelector((state) => state.auth);
 
   const [isButtons, showButtons] = useState(false);
+
+  const [isInputDisabled, setInputDisabled] = useState(true);
 
   const initialState = {
     name: currentUser?.name,
     email: currentUser?.email,
     password: '',
   };
-  const { values, setValues, handlerChange } = useForm(initialState);
+
+  const [values, setValues] = useState(initialState);
+
+  const handlerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValues({ ...values, [e.target.name]: e.target.value });
+    showButtons(true);
+  };
 
   const handlerCancel = () => {
     setValues(initialState);
@@ -46,13 +53,17 @@ const Profile = () => {
         onChange={handlerChange}
         value={values.name || ''}
         name={'name'}
+        disabled={isInputDisabled}
         icon={'EditIcon'}
+        onIconClick={() => {
+          setInputDisabled(false);
+        }}
       />
       <EmailInput
         onChange={handlerChange}
         value={values.email || ''}
         name={'email'}
-        icon={'EditIcon'}
+        isIcon={true}
       />
       <PasswordInput
         onChange={handlerChange}
@@ -66,8 +77,7 @@ const Profile = () => {
             htmlType="button"
             type="secondary"
             size="medium"
-            onClick={handlerCancel}
-          >
+            onClick={handlerCancel}>
             Отмена
           </Button>
           <Button htmlType="submit" type="primary" size="medium">

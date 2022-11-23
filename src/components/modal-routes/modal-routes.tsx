@@ -8,30 +8,30 @@ import ProfilePage from '../../pages/profile/profile';
 import NotFoundPage from '../../pages/not-found/not-found';
 import Profile from '../profile/profile';
 import IngredientPage from '../../pages/ingredient/ingredient';
-import { useDispatch, useSelector } from 'react-redux';
 import { ProtectedRoute } from '../protected-route/protected-route';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import OrderDetails from '../order-details/order-details';
-import { INGREDIENTMODALTITLE } from '../../constants';
+import { INGREDIENTMODALTITLE } from '../../constants.js';
 import {
   HIDE_INGREDIENT_MODAL,
   HIDE_ORDER_MODAL,
 } from '../../services/actions/modal';
 import { DELETE_CURRENT_ORDER } from '../../services/actions/orders';
+import { useAppDispatch, useAppSelector } from '../../index';
 
 const ModalRoutes = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const navigate: any = useNavigate();
   const location = useLocation();
   const background = location.state && location.state.background;
 
-  const { isIngredientModal, isOrderModal } = useSelector(
+  const { isIngredientModal, isOrderModal } = useAppSelector(
     (state) => state.modal
   );
   const isModalOpen = isIngredientModal || isOrderModal;
 
-  const { currentOrder } = useSelector((state) => state.orders);
+  const { currentOrder } = useAppSelector((state) => state.orders);
 
   const handlerCloseModal = () => {
     isIngredientModal && dispatch({ type: HIDE_INGREDIENT_MODAL });
@@ -59,8 +59,7 @@ const ModalRoutes = () => {
         </Route>
         <Route
           path="/ingredients/:ingredientId"
-          element={<IngredientPage />}
-        ></Route>
+          element={<IngredientPage />}></Route>
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
       {background && (
@@ -71,8 +70,7 @@ const ModalRoutes = () => {
               <Modal
                 isModalOpen={isModalOpen}
                 onCloseModal={handlerCloseModal}
-                modalTitle={INGREDIENTMODALTITLE}
-              >
+                modalTitle={INGREDIENTMODALTITLE}>
                 <IngredientDetails />
               </Modal>
             }

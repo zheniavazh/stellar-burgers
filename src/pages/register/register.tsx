@@ -7,15 +7,15 @@ import {
   PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import { signUp } from '../../services/actions/auth';
 import { useForm } from '../../hooks/useForm';
+import { useAppDispatch, useAppSelector } from '../../index';
 
 const RegisterPage = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const { currentUser } = useSelector((state) => state.auth);
+  const { currentUser } = useAppSelector((state) => state.auth);
 
   const { values, handlerChange } = useForm({
     name: '',
@@ -23,7 +23,7 @@ const RegisterPage = () => {
     password: '',
   });
 
-  const register = (e) => {
+  const register = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(signUp(values));
   };
@@ -61,8 +61,7 @@ const RegisterPage = () => {
       </form>
       <div className="mt-20">
         <p
-          className={`${styles.text} text text_type_main-default text_color_inactive mt-4`}
-        >
+          className={`${styles.text} text text_type_main-default text_color_inactive mt-4`}>
           Уже зарегистрированы?{' '}
           <NavLink to="/login" className={styles.link}>
             Войти

@@ -5,19 +5,19 @@ import {
   EmailInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import { resetPassword } from '../../services/actions/auth';
 import { useForm } from '../../hooks/useForm';
+import { useAppDispatch, useAppSelector } from '../../index';
 
 const ForgotPasswordPage = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const { currentUser } = useSelector((state) => state.auth);
+  const { currentUser } = useAppSelector((state) => state.auth);
 
   const { values, handlerChange } = useForm({ email: '' });
 
-  const reset = (e) => {
+  const reset = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(resetPassword(values));
     navigate('/reset-password', {
@@ -48,8 +48,7 @@ const ForgotPasswordPage = () => {
       </form>
       <div className="mt-20">
         <p
-          className={`${styles.text} text text_type_main-default text_color_inactive mt-4`}
-        >
+          className={`${styles.text} text text_type_main-default text_color_inactive mt-4`}>
           Вспомнили пароль?{' '}
           <NavLink to="/login" className={styles.link}>
             Войти
