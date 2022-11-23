@@ -2,13 +2,13 @@ import { useEffect } from 'react';
 import styles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import { getIngredients } from '../../services/actions/ingredients';
 import { getUser, updateToken } from '../../services/actions/auth';
 import ModalRoutes from '../modal-routes/modal-routes';
+import { useAppDispatch } from '../../index';
 
 const App = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(getIngredients());

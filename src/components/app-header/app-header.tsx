@@ -16,8 +16,7 @@ const AppHeader = () => {
             <NavLink
               to="/"
               end
-              className={`${styles.link} pt-4 pb-4 pl-5 pr-5 mr-2`}
-            >
+              className={`${styles.link} pt-4 pb-4 pl-5 pr-5 mr-2`}>
               {({ isActive }) => (
                 <>
                   {isActive ? (
@@ -30,8 +29,7 @@ const AppHeader = () => {
                       isActive
                         ? `text text_type_main-default ml-2 ${styles.active}`
                         : 'text text_type_main-default text_color_inactive ml-2'
-                    }
-                  >
+                    }>
                     Конструктор
                   </span>
                 </>
@@ -39,8 +37,7 @@ const AppHeader = () => {
             </NavLink>
             <NavLink
               to="/orders"
-              className={`${styles.link} pt-4 pb-4 pl-5 pr-5`}
-            >
+              className={`${styles.link} pt-4 pb-4 pl-5 pr-5`}>
               {({ isActive }) => (
                 <>
                   {isActive ? (
@@ -53,8 +50,7 @@ const AppHeader = () => {
                       isActive
                         ? `text text_type_main-default ml-2 ${styles.active}`
                         : 'text text_type_main-default text_color_inactive ml-2'
-                    }
-                  >
+                    }>
                     Лента заказов
                   </span>
                 </>
@@ -67,8 +63,7 @@ const AppHeader = () => {
           <div className={styles.navWrap}>
             <NavLink
               to="/profile"
-              className={`${styles.link} ${styles.align} pt-4 pb-4 pl-5 pr-5`}
-            >
+              className={`${styles.link} ${styles.align} pt-4 pb-4 pl-5 pr-5`}>
               {({ isActive }) => (
                 <>
                   {isActive ? (
@@ -81,8 +76,7 @@ const AppHeader = () => {
                       isActive
                         ? `text text_type_main-default ml-2 ${styles.active}`
                         : 'text text_type_main-default text_color_inactive ml-2'
-                    }
-                  >
+                    }>
                     Личный кабинет
                   </span>
                 </>

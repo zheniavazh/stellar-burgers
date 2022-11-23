@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
+import { useAppSelector } from '../../index';
 
 export function ProtectedRoute() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
-  const { currentUser } = useSelector((state) => state.auth);
+  const { currentUser } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
     if (!currentUser) {

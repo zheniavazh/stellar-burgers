@@ -5,6 +5,7 @@ import {
   INCREASE_BUN_COUNT,
   INCREASE_COUNT,
   DECREASE_COUNT,
+  DELETE_COUNT,
 } from '../actions/ingredients';
 
 const initialIngredientsState = {
@@ -67,6 +68,12 @@ export const ingredientsReducer = (state = initialIngredientsState, action) => {
         ingredients: state.ingredients.map((el) =>
           el._id === action.payload._id ? { ...el, count: el.count - 1 } : el
         ),
+      };
+    }
+    case DELETE_COUNT: {
+      return {
+        ...state,
+        ingredients: state.ingredients.map((el) => ({ ...el, count: 0 })),
       };
     }
     default: {

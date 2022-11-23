@@ -1,11 +1,14 @@
 import styles from './ingredient-details.module.css';
-import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { useAppSelector } from '../../index';
+import { TIngredient } from '../../utils/types';
 
 const IngredientDetails = () => {
   const { ingredientId } = useParams();
-  const { ingredients } = useSelector((state) => state.ingredients);
-  const ingredient = ingredients.find((el) => el._id === ingredientId);
+  const { ingredients } = useAppSelector((state) => state.ingredients);
+  const ingredient = ingredients.find(
+    (el: TIngredient) => el._id === ingredientId
+  );
 
   return (
     ingredient && (
