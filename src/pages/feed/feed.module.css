@@ -1,0 +1,35 @@
+.main {
+  display: flex;
+  justify-content: center;
+}
+
+.sectionLeft {
+  width: 600px;
+}
+
+.container {
+  height: 812px;
+  overflow-x: hidden;
+}
+
+.sectionRight {
+  width: 580px;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.column {
+  min-width: 272px;
+}
+
+.textColor {
+  color: #00cccc;
+}
+
+.text {
+  text-align: center;
+}

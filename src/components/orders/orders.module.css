@@ -1,0 +1,10 @@
+.container {
+  width: 872px;
+  height: 868px;
+  overflow-x: hidden;
+  margin-top: -82px;
+}
+
+.text {
+  text-align: center;
+}

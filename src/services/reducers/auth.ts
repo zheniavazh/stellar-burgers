@@ -1,3 +1,5 @@
+import { TAuthActions } from './../actions/auth';
+import { TUser } from './../../utils/types';
 import {
   SIGN_UP,
   SIGN_UP_SUCCESS,
@@ -25,7 +27,27 @@ import {
   UPDATE_USER_ERROR,
 } from '../actions/auth';
 
-const initialOrdersState = {
+type TInitialAuthState = {
+  currentUser: TUser | null;
+  signUpRequest: boolean;
+  signUpError: boolean;
+  signInRequest: boolean;
+  signInError: boolean;
+  resetPasswordRequest: boolean;
+  resetPasswordError: boolean;
+  confirmPasswordRequest: boolean;
+  confirmPasswordError: boolean;
+  logOutRequest: boolean;
+  logOutError: boolean;
+  updateTokenRequest: boolean;
+  updateTokenError: boolean;
+  getUserRequest: boolean;
+  getUserError: boolean;
+  updateUserRequest: boolean;
+  updateUserError: boolean;
+};
+
+const initialAuthState: TInitialAuthState = {
   currentUser: null,
   signUpRequest: false,
   signUpError: false,
@@ -45,7 +67,7 @@ const initialOrdersState = {
   updateUserError: false,
 };
 
-export const authReducer = (state = initialOrdersState, action) => {
+export const authReducer = (state = initialAuthState, action: TAuthActions) => {
   switch (action.type) {
     case SIGN_UP: {
       return {

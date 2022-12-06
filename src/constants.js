@@ -8,3 +8,6 @@ export const INGREDIENTMODALTITLE = 'Детали ингредиента';
 
 export const INGREDIENT = 'ingredient';
 export const ORDER = 'order';
+
+export const WSFEEDURL = 'wss://norma.nomoreparties.space/orders/all';
+export const WSORDERSURL = 'wss://norma.nomoreparties.space/orders';

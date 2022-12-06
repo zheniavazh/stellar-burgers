@@ -3,6 +3,7 @@ type TRequestOptions = {
   headers: {
     [key: string]: string;
   };
+  body?: any;
 };
 
 function checkResponse(response: Response) {
@@ -12,7 +13,7 @@ function checkResponse(response: Response) {
   throw new Error(`Ошибка ${response.status}`);
 }
 
-export async function request(url: string, options: TRequestOptions) {
+export async function request(url: string, options?: TRequestOptions) {
   const response = await fetch(url, options);
   return checkResponse(response);
 }

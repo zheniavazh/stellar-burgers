@@ -4,7 +4,7 @@ import ProfileNav from '../../components/profile-nav/profile-nav';
 
 const ProfilePage = () => {
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} pb-10`}>
       <ProfileNav />
       <Outlet />
     </div>

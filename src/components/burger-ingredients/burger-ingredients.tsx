@@ -17,9 +17,9 @@ const BurgerIngredients = () => {
   const { ingredients } = useAppSelector((state) => state.ingredients);
 
   const [currentTab, setCurrentTab] = useState('Булки');
-  const buns = ingredients.filter((el: TIngredient) => el.type === BUN);
-  const sauces = ingredients.filter((el: TIngredient) => el.type === SAUCE);
-  const mains = ingredients.filter((el: TIngredient) => el.type === MAIN);
+  const buns = ingredients.filter((el) => el.type === BUN);
+  const sauces = ingredients.filter((el) => el.type === SAUCE);
+  const mains = ingredients.filter((el) => el.type === MAIN);
 
   const [bunsRef, inViewBuns] = useInView({
     threshold: 0,
