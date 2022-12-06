@@ -6,18 +6,30 @@ import {
   WS_FEED_CONNECTION_CLOSED,
 } from '../../services/actions/wsFeedActions';
 import { useAppDispatch, useAppSelector } from '../../index';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { SHOW_FEED_ORDER_MODAL } from '../../services/actions/modal';
 
 const FeedPage = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+
   const { wsConnected, orders, total, totalToday } = useAppSelector(
     (state) => state.wsFeed
   );
 
   useEffect((): any => {
-    dispatch({ type: WS_FEED_CONNECTION_START });
+    dispatch({ type: WS_FEED_CONNECTION_START, payload: '/all' });
 
     return () => dispatch({ type: WS_FEED_CONNECTION_CLOSED });
   }, [dispatch]);
+
+  const handlerOpenModal = (orderId: string) => {
+    dispatch({ type: SHOW_FEED_ORDER_MODAL });
+    navigate(`/feed/${orderId}`, {
+      state: { background: pathname },
+    });
+  };
 
   return wsConnected ? (
     <main className={`${styles.main} pb-10`}>
@@ -27,7 +39,11 @@ const FeedPage = () => {
         </p>
         <div className={`${styles.container} pr-2 custom-scroll`}>
           {orders.map((order) => (
-            <FeedOrder order={order} key={order._id} />
+            <FeedOrder
+              order={order}
+              onModalOpen={handlerOpenModal}
+              key={order._id}
+            />
           ))}
         </div>
       </section>

@@ -7,7 +7,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { SHOW_INGREDIENT_MODAL } from '../../services/actions/modal';
 import { useInView } from 'react-intersection-observer';
 import { useAppDispatch, useAppSelector } from '../../index';
-import { TIngredient } from '../../utils/types';
 
 const BurgerIngredients = () => {
   const dispatch = useAppDispatch();
@@ -87,7 +86,7 @@ const BurgerIngredients = () => {
         <div className="mb-2" id="Булки" ref={bunsRef}>
           <p className="text text_type_main-medium mb-6">Булки</p>
           <div className={`${styles.list} ml-4 mr-1`}>
-            {buns.map((item: TIngredient) => (
+            {buns.map((item) => (
               <IngredientCard
                 key={item._id}
                 ingredient={item}
@@ -100,7 +99,7 @@ const BurgerIngredients = () => {
         <div className="mb-2" id="Соусы" ref={saucesRef}>
           <p className="text text_type_main-medium mb-6">Соусы</p>
           <div className={`${styles.list} ml-4 mr-1`}>
-            {sauces.map((item: TIngredient) => (
+            {sauces.map((item) => (
               <IngredientCard
                 key={item._id}
                 ingredient={item}
@@ -113,7 +112,7 @@ const BurgerIngredients = () => {
         <div className="mb-2" id="Начинки" ref={mainsRef}>
           <p className="text text_type_main-medium mb-6">Начинки</p>
           <div className={`${styles.list} ml-4 mr-1`}>
-            {mains.map((item: TIngredient) => (
+            {mains.map((item) => (
               <IngredientCard
                 key={item._id}
                 ingredient={item}

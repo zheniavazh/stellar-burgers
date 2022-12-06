@@ -11,7 +11,6 @@ import {
 import { useAppSelector } from '../../index';
 import { getTotalPrice } from '../../utils/getTotalPrice';
 import { getStatus } from '../../utils/getStatus';
-import { TWSOrder } from '../../utils/types';
 
 type TFeedOrderDetailsProps = {
   isPage?: boolean;
@@ -25,7 +24,7 @@ const FeedOrderDetails = ({ isPage, isProfile }: TFeedOrderDetailsProps) => {
   const { orders: feedOrders } = useAppSelector((state) => state.wsFeed);
   const { orders } = useAppSelector((state) => state.wsOrders);
 
-  const order: TWSOrder = isProfile
+  const order = isProfile
     ? orders.filter((el) => el._id === orderId)[0]
     : feedOrders.filter((el) => el._id === orderId)[0];
 

@@ -10,6 +10,7 @@ import {
   WS_ORDERS_CONNECTION_CLOSED,
 } from '../../services/actions/wsOrdersActions';
 import { useAppDispatch, useAppSelector } from '../../index';
+import { updateToken } from '../../services/actions/auth';
 
 const OrderPage = () => {
   const dispatch = useAppDispatch();
@@ -22,8 +23,23 @@ const OrderPage = () => {
   );
 
   useEffect(() => {
-    dispatch({ type: WS_FEED_CONNECTION_START });
-    dispatch({ type: WS_ORDERS_CONNECTION_START });
+    dispatch({ type: WS_FEED_CONNECTION_START, payload: '/all' });
+    let accessToken;
+    const token = window.localStorage.getItem('expires_in');
+    if (token && Date.now() >= Number(token) + 1200 * 1000) {
+      dispatch(updateToken());
+      accessToken = window.localStorage.getItem('token');
+      dispatch({
+        type: WS_ORDERS_CONNECTION_START,
+        payload: `?token=${accessToken}`,
+      });
+    } else {
+      accessToken = window.localStorage.getItem('token');
+      dispatch({
+        type: WS_ORDERS_CONNECTION_START,
+        payload: `?token=${accessToken}`,
+      });
+    }
 
     return () => {
       dispatch({ type: WS_FEED_CONNECTION_CLOSED });

@@ -35,13 +35,11 @@ import {
   WS_ORDERS_CONNECTION_CLOSED,
   WS_ORDERS_GET_ORDERS,
 } from './services/actions/wsOrdersActions';
-import { WSFEEDURL, WSORDERSURL } from './constants';
+import { WSURL } from './constants';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
-
-const accessToken = window.localStorage.getItem('token');
 
 const wsFeedActions = {
   wsInit: WS_FEED_CONNECTION_START,
@@ -63,14 +61,14 @@ const composeEnhancers = composeWithDevTools({});
 const enhancer = composeEnhancers(
   applyMiddleware(
     thunk,
-    socketMiddleware(WSFEEDURL, wsFeedActions),
-    socketMiddleware(`${WSORDERSURL}?token=${accessToken}`, wsOrdersActions)
+    socketMiddleware(WSURL, wsFeedActions),
+    socketMiddleware(WSURL, wsOrdersActions)
   )
 );
 
 const store = createStore(rootReducer, enhancer);
 
-type RootState = ReturnType<typeof store.getState>;
+export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
 type TAppActions =

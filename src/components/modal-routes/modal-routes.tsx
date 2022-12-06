@@ -12,7 +12,7 @@ import { ProtectedRoute } from '../protected-route/protected-route';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import OrderDetails from '../order-details/order-details';
-import { INGREDIENTMODALTITLE } from '../../constants.js';
+import { INGREDIENTMODALTITLE } from '../../constants';
 import {
   HIDE_INGREDIENT_MODAL,
   HIDE_ORDER_MODAL,
@@ -81,22 +81,28 @@ const ModalRoutes = () => {
               </Modal>
             }
           />
-          <Route
-            path="/profile/order/:orderNumber"
-            element={
-              <Modal isModalOpen={isModalOpen} onCloseModal={handlerCloseModal}>
-                <OrderDetails />
-              </Modal>
-            }
-          />
-          <Route
-            path="/profile/orders/:orderId"
-            element={
-              <Modal isModalOpen={isModalOpen} onCloseModal={handlerCloseModal}>
-                <FeedOrderDetails isProfile={true} />
-              </Modal>
-            }
-          />
+          <Route element={<ProtectedRoute />}>
+            <Route
+              path="/profile/order/:orderNumber"
+              element={
+                <Modal
+                  isModalOpen={isModalOpen}
+                  onCloseModal={handlerCloseModal}>
+                  <OrderDetails />
+                </Modal>
+              }
+            />
+            <Route
+              path="/profile/orders/:orderId"
+              element={
+                <Modal
+                  isModalOpen={isModalOpen}
+                  onCloseModal={handlerCloseModal}>
+                  <FeedOrderDetails isProfile={true} />
+                </Modal>
+              }
+            />
+          </Route>
           <Route
             path="/feed/:orderId"
             element={
