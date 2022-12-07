@@ -36,7 +36,7 @@ const AppHeader = () => {
               )}
             </NavLink>
             <NavLink
-              to="/orders"
+              to="/feed"
               className={`${styles.link} pt-4 pb-4 pl-5 pr-5`}>
               {({ isActive }) => (
                 <>

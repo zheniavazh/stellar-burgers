@@ -9,23 +9,12 @@ const MainPage = () => {
   const { ingredientsRequest, ingredientsError } = useAppSelector(
     (state) => state.ingredients
   );
-  const { isConstructor, ingredients } = useAppSelector(
-    (state) => state.constructorIngredients
-  );
-  const { orderRequest, currentOrder } = useAppSelector(
-    (state) => state.orders
-  );
 
   return !ingredientsRequest && !ingredientsError ? (
     <main className={styles.main}>
       <DndProvider backend={HTML5Backend}>
         <BurgerIngredients />
-        <BurgerConstructor
-          isConstructor={isConstructor}
-          ingredients={ingredients}
-          orderRequest={orderRequest}
-          currentOrder={currentOrder}
-        />
+        <BurgerConstructor />
       </DndProvider>
     </main>
   ) : (

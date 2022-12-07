@@ -1,14 +1,11 @@
 import styles from './ingredient-details.module.css';
 import { useParams } from 'react-router-dom';
 import { useAppSelector } from '../../index';
-import { TIngredient } from '../../utils/types';
 
 const IngredientDetails = () => {
   const { ingredientId } = useParams();
   const { ingredients } = useAppSelector((state) => state.ingredients);
-  const ingredient = ingredients.find(
-    (el: TIngredient) => el._id === ingredientId
-  );
+  const ingredient = ingredients.filter((el) => el._id === ingredientId)[0];
 
   return (
     ingredient && (

@@ -31,3 +31,25 @@ export type TOrder = {
   createdAt: string;
   updatedAt: string;
 };
+
+export type TWSOrders = {
+  success: boolean;
+  orders: Array<TWSOrder>;
+  total: number;
+  totalToday: number;
+};
+
+export type TWSOrder = {
+  _id: string;
+  ingredients: Array<string>;
+  status: string;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  number: number;
+};
+
+export type TUser = {
+  name: string;
+  email: string;
+};

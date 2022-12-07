@@ -4,12 +4,12 @@ import {
   DragIcon,
   ConstructorElement,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDispatch } from 'react-redux';
 import { useDrag, useDrop } from 'react-dnd';
 import { DELETE_INGREDIENT } from '../../services/actions/constructorIngredients';
 import { DECREASE_COUNT } from '../../services/actions/ingredients';
 import { BUN } from '../../constants';
 import { TIngredient } from '../../utils/types';
+import { useAppDispatch } from '../../index';
 
 type TConstructorCardProps = {
   type?: 'top' | 'bottom';
@@ -26,7 +26,7 @@ const ConstructorCard = ({
   index,
   moveCard,
 }: TConstructorCardProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   let text = ingredient.name;
   if (type === 'top') {

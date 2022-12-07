@@ -1,3 +1,5 @@
+import { TIngredientsActions } from './../actions/ingredients';
+import { TIngredient } from './../../utils/types';
 import {
   GET_INGREDIENTS,
   GET_INGREDIENTS_ERROR,
@@ -8,13 +10,22 @@ import {
   DELETE_COUNT,
 } from '../actions/ingredients';
 
-const initialIngredientsState = {
+type TInitialIngredientsState = {
+  ingredients: Array<TIngredient>;
+  ingredientsRequest: boolean;
+  ingredientsError: boolean;
+};
+
+const initialIngredientsState: TInitialIngredientsState = {
   ingredients: [],
   ingredientsRequest: false,
   ingredientsError: false,
 };
 
-export const ingredientsReducer = (state = initialIngredientsState, action) => {
+export const ingredientsReducer = (
+  state = initialIngredientsState,
+  action: TIngredientsActions
+) => {
   switch (action.type) {
     case GET_INGREDIENTS: {
       return {

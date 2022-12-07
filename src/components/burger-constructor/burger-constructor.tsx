@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useCallback } from 'react';
+import { useEffect, useCallback } from 'react';
 import styles from './burger-constructor.module.css';
 import {
   CurrencyIcon,
@@ -24,39 +24,28 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { getUser, updateToken } from '../../services/actions/auth';
 import { SHOW_ORDER_MODAL } from '../../services/actions/modal';
 import { useAppDispatch, useAppSelector } from '../../index';
-import { TIngredient, TOrder } from '../../utils/types';
+import { TIngredient } from '../../utils/types';
+import { getTotalPrice } from '../../utils/getTotalPrice';
 
-type TBurgerConstructorProps = {
-  isConstructor: boolean;
-  ingredients: Array<TIngredient>;
-  orderRequest: boolean;
-  currentOrder: TOrder;
-};
-
-const BurgerConstructor = ({
-  isConstructor,
-  ingredients,
-  orderRequest,
-  currentOrder,
-}: TBurgerConstructorProps) => {
+const BurgerConstructor = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
+  const { isConstructor, constructorIngredients } = useAppSelector(
+    (state) => state.constructorIngredients
+  );
+  const { orderRequest, currentOrder } = useAppSelector(
+    (state) => state.orders
+  );
   const { currentUser } = useAppSelector((state) => state.auth);
 
-  const bun = ingredients.find((el) => el.type === BUN);
-  const rest = ingredients.filter((el) => el.type !== BUN);
-
-  const totalPrice = useMemo(() => {
-    return ingredients
-      .map((el) => (el.type === BUN ? el.price * 2 : el.price))
-      .reduce((acc, price) => acc + price, 0);
-  }, [ingredients]);
+  const bun = constructorIngredients.find((el) => el.type === BUN);
+  const rest = constructorIngredients.filter((el) => el.type !== BUN);
 
   useEffect(() => {
     if (currentOrder) {
-      navigate(`/profile/orders/${currentOrder.number}`, {
+      navigate(`/profile/order/${currentOrder.number}`, {
         state: { background: pathname },
       });
     }
@@ -70,7 +59,7 @@ const BurgerConstructor = ({
           dispatch(updateToken());
           dispatch(getUser());
         }
-        const ingredientsIds = ingredients.map((el) => el._id);
+        const ingredientsIds = constructorIngredients.map((el) => el._id);
         dispatch(getOrder(ingredientsIds));
         dispatch({ type: DELETE_CONSTRUCTOR });
         dispatch({ type: DELETE_COUNT });
@@ -160,7 +149,7 @@ const BurgerConstructor = ({
           <div className={`${styles.total} mt-10 mr-4`}>
             <div className={`${styles.price} mr-10`}>
               <span className="text text_type_digits-medium mr-2">
-                {totalPrice}
+                {getTotalPrice(constructorIngredients)}
               </span>
               <CurrencyIcon type="primary" />
             </div>

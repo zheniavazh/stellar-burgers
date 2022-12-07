@@ -1,16 +1,29 @@
+import { TModalActions } from './../actions/modal';
 import {
   SHOW_INGREDIENT_MODAL,
   SHOW_ORDER_MODAL,
+  SHOW_FEED_ORDER_MODAL,
   HIDE_INGREDIENT_MODAL,
   HIDE_ORDER_MODAL,
+  HIDE_FEED_ORDER_MODAL,
 } from '../actions/modal';
 
-const initialModalState = {
-  isIngredientModal: false,
-  isOrderModal: false,
+type TInitialModalState = {
+  isIngredientModal: boolean;
+  isOrderModal: boolean;
+  isFeedOrderModal: boolean;
 };
 
-export const modalReducer = (state = initialModalState, action) => {
+const initialModalState: TInitialModalState = {
+  isIngredientModal: false,
+  isOrderModal: false,
+  isFeedOrderModal: false,
+};
+
+export const modalReducer = (
+  state = initialModalState,
+  action: TModalActions
+) => {
   switch (action.type) {
     case SHOW_INGREDIENT_MODAL: {
       return {
@@ -24,6 +37,12 @@ export const modalReducer = (state = initialModalState, action) => {
         isOrderModal: true,
       };
     }
+    case SHOW_FEED_ORDER_MODAL: {
+      return {
+        ...state,
+        isFeedOrderModal: true,
+      };
+    }
     case HIDE_INGREDIENT_MODAL: {
       return {
         ...state,
@@ -34,6 +53,12 @@ export const modalReducer = (state = initialModalState, action) => {
       return {
         ...state,
         isOrderModal: false,
+      };
+    }
+    case HIDE_FEED_ORDER_MODAL: {
+      return {
+        ...state,
+        isFeedOrderModal: false,
       };
     }
     default: {

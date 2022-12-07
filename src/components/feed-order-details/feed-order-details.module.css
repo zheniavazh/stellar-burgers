@@ -1,0 +1,53 @@
+.details {
+  margin: -42px 0 -20px;
+}
+
+.textAlign {
+  text-align: center;
+}
+
+.textColor {
+  color: #00cccc;
+}
+
+.ingredients {
+  height: 312px;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ingredientsWrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ingredientsLeft,
+.ingredientsRight {
+  display: flex;
+  align-items: center;
+}
+
+.image {
+  width: 60px;
+  height: 60px;
+  background-color: #131316;
+  background-size: auto 56px;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: 2px solid #801ab2;
+  border-radius: 100px;
+}
+
+.bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.priceWrap {
+  display: flex;
+  align-items: center;
+}
