@@ -1,5 +1,5 @@
-import { TAuthActions } from './../actions/auth';
-import { TUser } from './../../utils/types';
+import { TAuthActions } from '../actions/auth';
+import { TUser } from '../../utils/types';
 import {
   SIGN_UP,
   SIGN_UP_SUCCESS,
@@ -47,7 +47,7 @@ type TInitialAuthState = {
   updateUserError: boolean;
 };
 
-const initialAuthState: TInitialAuthState = {
+export const initialAuthState: TInitialAuthState = {
   currentUser: null,
   signUpRequest: false,
   signUpError: false,
@@ -147,8 +147,8 @@ export const authReducer = (state = initialAuthState, action: TAuthActions) => {
     case CONFIRM_PASSWORD_ERROR: {
       return {
         ...state,
-        logOutError: true,
-        logOutRequest: false,
+        confirmPasswordError: true,
+        confirmPasswordRequest: false,
       };
     }
     case LOG_OUT: {

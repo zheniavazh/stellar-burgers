@@ -1,5 +1,5 @@
-import { TOrdersActions } from './../actions/orders';
-import { TOrder } from './../../utils/types';
+import { TOrdersActions } from '../actions/orders';
+import { TOrder } from '../../utils/types';
 import {
   GET_ORDER,
   GET_ORDER_SUCCESS,
@@ -14,7 +14,7 @@ type TInitialOrdersState = {
   orderError: boolean;
 };
 
-const initialOrdersState: TInitialOrdersState = {
+export const initialOrdersState: TInitialOrdersState = {
   orders: [],
   currentOrder: null,
   orderRequest: false,

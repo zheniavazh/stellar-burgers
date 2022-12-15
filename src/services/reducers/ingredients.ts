@@ -1,5 +1,5 @@
-import { TIngredientsActions } from './../actions/ingredients';
-import { TIngredient } from './../../utils/types';
+import { TIngredientsActions } from '../actions/ingredients';
+import { TIngredient } from '../../utils/types';
 import {
   GET_INGREDIENTS,
   GET_INGREDIENTS_ERROR,
@@ -16,7 +16,7 @@ type TInitialIngredientsState = {
   ingredientsError: boolean;
 };
 
-const initialIngredientsState: TInitialIngredientsState = {
+export const initialIngredientsState: TInitialIngredientsState = {
   ingredients: [],
   ingredientsRequest: false,
   ingredientsError: false,

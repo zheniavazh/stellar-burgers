@@ -12,7 +12,7 @@ type TIinitialState = {
   orders: Array<TWSOrder>;
 };
 
-const initialState: TIinitialState = {
+export const initialState: TIinitialState = {
   wsConnected: false,
   orders: [],
 };
