@@ -1,6 +1,6 @@
 describe('Constructor', { testIsolation: false }, () => {
   before(function () {
-    cy.visit('http://localhost:3000');
+    cy.visit('/');
   });
 
   it('Should open ingredient modal', () => {
