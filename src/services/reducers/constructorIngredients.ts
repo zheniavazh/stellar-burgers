@@ -1,4 +1,4 @@
-import { TConstructorIngredientsActions } from './../actions/constructorIngredients';
+import { TConstructorIngredientsActions } from '../actions/constructorIngredients';
 import { TIngredient } from '../../utils/types';
 import {
   ADD_BUN,
@@ -13,7 +13,7 @@ type TInitialConstructorIngredientsState = {
   constructorIngredients: Array<TIngredient>;
 };
 
-const initialConstructorIngredientsState: TInitialConstructorIngredientsState =
+export const initialConstructorIngredientsState: TInitialConstructorIngredientsState =
   {
     isConstructor: false,
     constructorIngredients: [],
@@ -46,8 +46,11 @@ export const constructorIngredientsReducer = (
     }
     case DELETE_INGREDIENT: {
       const newIngredients = [
-        ...state.constructorIngredients.filter((el) => el !== action.payload),
+        ...state.constructorIngredients.filter(
+          (el) => el.dragId !== action.payload.dragId
+        ),
       ];
+      console.log(newIngredients);
       return {
         ...state,
         isConstructor: newIngredients.length !== 0,

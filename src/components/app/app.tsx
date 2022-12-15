@@ -26,7 +26,7 @@ const App = () => {
 
   return (
     <div className={styles.app}>
-      <Router>
+      <Router basename={process.env.PUBLIC_URL}>
         <AppHeader />
         <ModalRoutes />
       </Router>

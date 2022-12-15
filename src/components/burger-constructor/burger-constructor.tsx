@@ -113,7 +113,8 @@ const BurgerConstructor = () => {
       className={`${styles.section} ${
         isHover ? styles.onHover : ''
       } mt-25 ml-5 mr-5`}
-      ref={dropTargetRef}>
+      ref={dropTargetRef}
+      data-test-id="constructor">
       {isConstructor && (
         <>
           <div className={`${styles.constructor}`}>

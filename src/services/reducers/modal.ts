@@ -1,4 +1,4 @@
-import { TModalActions } from './../actions/modal';
+import { TModalActions } from '../actions/modal';
 import {
   SHOW_INGREDIENT_MODAL,
   SHOW_ORDER_MODAL,
@@ -14,7 +14,7 @@ type TInitialModalState = {
   isFeedOrderModal: boolean;
 };
 
-const initialModalState: TInitialModalState = {
+export const initialModalState: TInitialModalState = {
   isIngredientModal: false,
   isOrderModal: false,
   isFeedOrderModal: false,

@@ -5,6 +5,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDrag } from 'react-dnd';
 import { TIngredient } from '../../utils/types';
+import { BUN } from '../../constants';
 
 type TIngredientCardProps = {
   ingredient: TIngredient;
@@ -27,6 +28,7 @@ const IngredientCard = ({
 
   return (
     <div
+      data-test-id={ingredient.type === BUN ? 'bun' : 'ingredient'}
       className={`${styles.card} mb-8`}
       style={{ opacity }}
       onClick={() => onModalOpen(ingredient._id)}
